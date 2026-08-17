@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(240, 249, 255, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #93c5fd;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* Football-inspired keyframe animations */
+@keyframes footballBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(180deg);
+  }
+}
+
+@keyframes pitchGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes stadiumPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.45);
+  }
+}
+
+.animate-football-bounce {
+  animation: footballBounce 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-pitch-glow {
+  animation: pitchGlow 3s ease-in-out infinite;
+}
+
+.animate-stadium-pulse {
+  animation: stadiumPulse 2.5s ease-in-out infinite;
+}
+
+/* Subtle Pitch Vector Background Grid */
+.bg-football-pattern {
+  background-color: #f8fafc;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-pitch-stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(240, 249, 255, 0.8),
+    rgba(240, 249, 255, 0.8) 60px,
+    rgba(224, 242, 254, 0.6) 60px,
+    rgba(224, 242, 254, 0.6) 120px
+  );
+}
+
+/* Glassmorphism cards */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(186, 230, 253, 0.6);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
