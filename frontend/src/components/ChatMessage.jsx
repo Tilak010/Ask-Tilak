@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, User, Bot, Sparkles } from 'lucide-react';
+import { Copy, Check, User } from 'lucide-react';
 
 /**
  * Format markdown-like syntax into clean HTML structures (bolding, lists, line breaks)
@@ -11,7 +11,7 @@ const FormattedText = ({ content }) => {
   const paragraphs = content.split(/\n\n+/);
 
   return (
-    <div className="space-y-2 text-sm leading-relaxed">
+    <div className="space-y-2 text-sm leading-relaxed break-words [overflow-wrap:anywhere]">
       {paragraphs.map((paragraph, pIdx) => {
         // Handle list lines starting with - or *
         const lines = paragraph.split('\n');
@@ -23,7 +23,7 @@ const FormattedText = ({ content }) => {
               {lines.map((line, lIdx) => {
                 const cleanLine = line.trim().replace(/^[-*]\s+/, '');
                 return (
-                  <li key={lIdx} className="text-slate-700 font-normal">
+                  <li key={lIdx} className="text-slate-700 font-normal break-words">
                     {parseInlineBold(cleanLine)}
                   </li>
                 );
@@ -33,7 +33,7 @@ const FormattedText = ({ content }) => {
         }
 
         return (
-          <p key={pIdx} className="whitespace-pre-wrap">
+          <p key={pIdx} className="whitespace-pre-wrap break-words">
             {lines.map((line, lineIdx) => (
               <React.Fragment key={lineIdx}>
                 {parseInlineBold(line)}
@@ -52,7 +52,7 @@ const parseInlineBold = (text) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-semibold text-slate-900">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-semibold text-slate-900 break-words">{part.slice(2, -2)}</strong>;
     }
     return part;
   });
@@ -70,19 +70,19 @@ export const ChatMessage = ({ message }) => {
   };
 
   return (
-    <div className={`flex w-full my-3.5 z-10 ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}>
-      <div className={`flex items-start gap-2.5 max-w-[85%] sm:max-w-[75%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+    <div className={`flex w-full my-3 z-10 ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}>
+      <div className={`flex items-start gap-2 sm:gap-2.5 max-w-[92%] sm:max-w-[82%] md:max-w-[75%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
         
         {/* Avatar */}
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-xs flex-shrink-0 mt-0.5 ${
+        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center shadow-xs flex-shrink-0 mt-0.5 ${
           isUser 
             ? 'bg-sky-600 text-white shadow-sky-600/30' 
             : 'bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 text-white shadow-sky-400/30'
         }`}>
           {isUser ? (
-            <User className="w-4 h-4" />
+            <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           ) : (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="sm:w-4 sm:h-4">
               <circle cx="12" cy="12" r="9" />
               <polygon points="12,8 14.5,10 13.5,13 10.5,13 9.5,10" fill="currentColor" fillOpacity="0.3" />
             </svg>
@@ -90,7 +90,7 @@ export const ChatMessage = ({ message }) => {
         </div>
 
         {/* Message Bubble Container */}
-        <div className="group relative flex flex-col">
+        <div className="group relative flex flex-col min-w-0">
           {/* Header label for AI */}
           {!isUser && (
             <div className="flex items-center space-x-1.5 mb-1 px-1">
@@ -100,7 +100,7 @@ export const ChatMessage = ({ message }) => {
           )}
 
           {/* Bubble content */}
-          <div className={`rounded-2xl px-4 py-3 shadow-xs transition-all ${
+          <div className={`rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 shadow-xs transition-all ${
             isUser
               ? 'bg-sky-600 text-white rounded-tr-xs shadow-sky-500/20'
               : 'bg-white border border-sky-100/90 text-slate-800 rounded-tl-xs shadow-slate-200/50 hover:shadow-sky-100'
@@ -115,7 +115,7 @@ export const ChatMessage = ({ message }) => {
             {!isUser && (
               <button
                 onClick={handleCopy}
-                className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-sky-600 flex items-center gap-1 cursor-pointer"
+                className="opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-sky-600 flex items-center gap-1 cursor-pointer p-0.5"
                 title="Copy response"
               >
                 {copied ? (
