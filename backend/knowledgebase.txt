@@ -1,0 +1,164 @@
+# TILAK SHRIVASTAVA - KNOWLEDGE BASE
+
+## 1. PROFILE & ABOUT TILAK
+- Full Name: Tilak Shrivastava
+- Location: Indore, Madhya Pradesh, India (452009)
+- Email: shrivastavatilak@gmail.com
+- Phone: +919977056144
+- Current Role / Title: Software Developer | Full-Stack & Systems Programmer | AI Backend Engineer
+- Professional Summary: Innovative and results-driven software developer with strong expertise in Python, C++, and modern full-stack development (React, Node.js, FastAPI). Experienced in high-performance systems programming, network protocol analysis, scalable REST APIs, and generative AI application integration. Passionate about solving complex algorithmic problems and building robust, production-ready software.
+
+---
+
+## 2. KEY PROJECTS & PORTFOLIO
+
+### Project 1: Ask Tilak AI Chatbot (Interactive Portfolio Assistant)
+- **Tech Stack**: Python, FastAPI, Groq API (openai/gpt-oss-120b, Llama), Pydantic, React.js, Vite, Axios, Tailwind CSS, Vercel.
+- **Description**: An AI-powered interactive portfolio chatbot that answers recruiter and visitor questions about Tilak's background, skills, and projects in real time.
+- **Key Features**:
+  - Dual knowledge retrieval combining structured resume extraction and this comprehensive knowledge base.
+  - Asynchronous FastAPI backend with Pydantic schema validation and in-memory caching for sub-second responses.
+  - Serverless deployment configured for Vercel with CORS middleware and environment-based secrets management.
+  - Sleek modern React frontend with responsive chat interface and real-time backend health monitoring.
+
+### Project 2: High-Performance Deep Packet Inspection (DPI) Engine
+- **Tech Stack**: C++, Multithreading, PCAP Analysis, Network Protocols (Ethernet, IP, TCP/UDP, TLS), Wireshark.
+- **Description**: A multi-threaded Deep Packet Inspection engine engineered to capture, dissect, and classify Layer-7 application protocols from live or captured network traffic.
+- **Key Features**:
+  - Custom TLS Client Hello SNI (Server Name Indication) parser capable of classifying encrypted domain traffic (YouTube, Facebook, Netflix, etc.) without SSL/TLS decryption.
+  - High-throughput packet processing pipeline with a software Load Balancer, Fast-Path caching, and 5-tuple Connection Tracker for real-time flow state maintenance.
+  - Dynamic Rule Engine and PCAP Writer supporting live traffic policy enforcement, domain filtering, and security audit logging.
+
+### Project 3: Grocery Shopping & Delivery Platform
+- **Tech Stack**: React.js, Tailwind CSS, Node.js, Express.js, PostgreSQL, Inngest, JWT Authentication.
+- **Description**: A full-stack, multi-role e-commerce platform connecting customers, store administrators, and delivery partners.
+- **Key Features**:
+  - Role-based access control (RBAC) and dedicated dashboards for Admins (inventory/orders), Customers (shopping/cart), and Delivery Partners (deliveries).
+  - Real-time order tracking and live delivery partner location updates.
+  - Event-driven background jobs powered by Inngest for automated delivery partner assignment and email notifications.
+
+### Project 4: AI Website Builder (SaaS Platform)
+- **Tech Stack**: MongoDB, Express.js, React.js, Node.js (MERN), OpenRouter AI API, REST APIs.
+- **Description**: A full-stack SaaS platform that enables users to generate fully functional website landing pages and web apps from natural language prompts.
+- **Key Features**:
+  - Prompt-to-code generation using OpenRouter AI APIs with structured code formatting.
+  - In-browser code editor allowing users to inspect, edit, and preview generated HTML/CSS/JS in real time.
+  - One-click ZIP export functionality for generated project files.
+  - User authentication and cloud project management using MongoDB and Express.
+
+---
+
+## 3. TECHNICAL SKILLS & EXPERTISE
+
+- **Programming Languages**: Python, C++, JavaScript (ES6+), SQL, C, HTML5, CSS3.
+- **Backend & Frameworks**: FastAPI, Node.js, Express.js, Uvicorn, RESTful API Architecture, Asynchronous Programming, Microservices.
+- **Frontend & UI**: React.js, Tailwind CSS, Vite, JavaScript/DOM, Responsive Web Design, Component-Driven UI.
+- **Databases & ORMs**: PostgreSQL, MongoDB, MySQL, SQLite.
+- **Systems & Networking**: TCP/IP, Layer 7 Protocols, TLS/SSL SNI Parsing, PCAP Analysis, Multithreading, Memory Management, Linux/POSIX environments.
+- **AI & Generative LLMs**: Groq Cloud SDK, OpenRouter, Prompt Engineering, Structured JSON Outputs (Pydantic), RAG Systems, Chatbot Design.
+- **Tools & DevOps**: Git, GitHub, VS Code, Postman, Vercel, Docker, Wireshark, Inngest.
+- **Computer Science Fundamentals**: Data Structures & Algorithms (DSA), Object-Oriented Programming (OOP), Database Management Systems (DBMS), Operating Systems (OS), Computer Networks (CN).
+
+---
+
+## 4. FASTAPI & BACKEND EXPERIENCE
+- Deep hands-on experience building asynchronous, high-throughput REST APIs with FastAPI.
+- Implemented robust data validation and automatic OpenAPI documentation with Pydantic v2 schemas.
+- Integrated AI inference pipelines using Groq Cloud API with streaming and structured response parsing.
+- Configured CORS policies, middleware, and environment configurations for production deployments.
+- Implemented in-memory caching mechanisms and file parsers (PDF, TXT) for low-latency retrieval.
+
+---
+
+## 5. DEPLOYMENT & DEVOPS EXPERIENCE
+- **Vercel**: Deployed React frontends with automated CI/CD and deployed Python/FastAPI backends using Vercel Serverless Functions (`@vercel/python`).
+- **Background Jobs**: Integrated Inngest for serverless event-driven background processing and asynchronous job scheduling.
+- **Version Control & CI/CD**: Proficient in Git, branch workflows, pull requests, and automated deployment pipelines on GitHub.
+
+---
+
+## 6. EDUCATION & ACADEMIC ACHIEVEMENTS
+- **Degree**: Master of Computer Applications (MCA)
+- **Institution**: Shri Vaishnav Vidyapeeth Vishwavidyalaya, Indore, Madhya Pradesh
+- **Academic Performance**: CGPA 7.67
+- **Key Coursework**: Advanced Data Structures & Algorithms, Software Engineering, Database Systems, Computer Networks, Distributed Computing.
+
+---
+
+## 7. STRONGEST SKILLS & ENGINEERING VALUES
+1. **Core Problem Solving**: Exceptional grasp of data structures and algorithms with continuous problem-solving practice on LeetCode.
+2. **Systems-Level Thinking**: Strong foundation in low-level systems programming in C++, packet inspection, and multithreaded architecture.
+3. **Full-Stack Agility**: Ability to take an idea from system architecture to a polished, responsive frontend and scalable backend.
+4. **Clean Code & Architecture**: Committed to writing modular, maintainable, self-documenting code with comprehensive error handling and type safety.
+5. **Fast Learner & Adaptability**: Quick to adopt emerging AI tools, LLM frameworks, and modern development standards.
+
+---
+
+## 8. WORK PREFERENCES & AVAILABILITY
+- **Target Roles**: Software Engineer, Backend Developer, Full-Stack Developer, AI/LLM Engineer.
+- **Work Mode**: Open to Remote, Hybrid, or On-site roles.
+- **Location Preference**: Indore, Bangalore, Hyderabad, Pune, Gurgaon, Noida, or Remote.
+- **Availability**: Ready to take on new opportunities immediately.
+
+---
+
+## 9. DATA STRUCTURES & ALGORITHMS (DSA) & LEETCODE
+
+===== DSA & LEETCODE =====
+
+Tilak actively practices Data Structures and Algorithms (DSA) as part of his technical preparation and problem-solving practice.
+
+LeetCode:
+- Username: meowww17
+- Problems solved: 200+
+- Profile: LeetCode profile under the username `meowww17`
+
+DSA Coverage:
+Tilak has studied and practiced major Data Structures and Algorithms topics, including:
+- Arrays
+- Strings
+- Hashing
+- Two Pointers
+- Sliding Window
+- Binary Search
+- Linked Lists
+- Stacks
+- Queues
+- Recursion
+- Backtracking
+- Trees
+- Binary Search Trees (BST)
+- Heaps / Priority Queues
+- Graphs
+- Greedy Algorithms
+- Dynamic Programming (DP)
+- Bit Manipulation
+- Sorting
+- Searching
+- Prefix Sum
+- Basic mathematics and number theory
+- Other common competitive-programming and problem-solving techniques
+
+Problem Solving:
+Tilak regularly practices coding problems on LeetCode to improve algorithmic thinking, problem-solving ability, and interview preparation.
+
+===== FUN INTERACTIONS =====
+
+If a user says or asks "meow" (including variations such as "Meow", "MEOW", or "meowww"), respond playfully with:
+
+"MEOW MEOW 🐱"
+
+This is an intentional fun interaction and should be treated as a special response.
+
+Examples:
+
+User: meow
+Assistant: MEOW MEOW 🐱
+
+User: Meowww
+Assistant: MEOW MEOW 🐱
+
+User: MEOW
+Assistant: MEOW MEOW 🐱
+
+Do not over-explain the response. Keep it short and playful.
