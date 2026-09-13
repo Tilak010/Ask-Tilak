@@ -10,8 +10,47 @@ import { sendChatMessage, checkBackendHealth } from './services/api';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
 const STORAGE_KEY = 'ask_tilak_chatbot_sessions_v1';
+const THEME_KEY = 'ask_tilak_theme_preference';
 
 export function App() {
+  // Theme state: defaults to saved preference or system dark mode
+  const [theme, setTheme] = useState(() => {
+    try {
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme;
+      }
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    } catch (e) {}
+    return 'light';
+  });
+
+  // Apply dark class to document.documentElement and trigger smooth transition
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('theme-transition');
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {}
+
+    const timer = setTimeout(() => {
+      root.classList.remove('theme-transition');
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   // Navigation & session state
   const [sessions, setSessions] = useState(() => {
     try {
@@ -247,7 +286,7 @@ export function App() {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-slate-100 text-slate-900 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-100 dark:bg-[#020b18] text-slate-900 dark:text-slate-100 overflow-hidden font-sans transition-colors duration-300">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -258,10 +297,12 @@ export function App() {
         onDeleteSession={handleDeleteSession}
         onNewChat={handleNewChat}
         onClearHistory={handleClearHistory}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full w-full relative bg-slate-50 overflow-hidden">
+      <div className="flex-1 flex flex-col h-full w-full relative bg-slate-50 dark:bg-[#030d1e] overflow-hidden transition-colors duration-300">
         
         {/* Subtle Pitch Vector Background Overlay */}
         <FootballBackground />
@@ -273,13 +314,15 @@ export function App() {
           isBackendConnected={isBackendConnected}
           isCheckingBackend={isCheckingBackend}
           onRecheckBackend={handleCheckBackend}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
         />
 
         {/* Connection Warning Toast Banner */}
         {errorMessage && (
-          <div className="mx-4 mt-3 p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-xs flex items-start justify-between z-30 shadow-xs animate-fade-in">
+          <div className="mx-4 mt-3 p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl text-rose-800 dark:text-rose-200 text-xs flex items-start justify-between z-30 shadow-xs animate-fade-in">
             <div className="flex items-start space-x-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold block">Backend Connection Error</span>
                 <span>{errorMessage}</span>
@@ -287,7 +330,7 @@ export function App() {
             </div>
             <button
               onClick={handleCheckBackend}
-              className="px-2 py-1 bg-rose-100 hover:bg-rose-200 text-rose-900 rounded-lg font-medium text-[11px] transition-colors flex items-center gap-1 cursor-pointer flex-shrink-0"
+              className="px-2 py-1 bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/60 dark:hover:bg-rose-800/80 text-rose-900 dark:text-rose-100 rounded-lg font-medium text-[11px] transition-colors flex items-center gap-1 cursor-pointer flex-shrink-0"
             >
               <RefreshCw className="w-3 h-3" /> Retry
             </button>

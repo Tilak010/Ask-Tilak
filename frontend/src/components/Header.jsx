@@ -1,23 +1,26 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
-import { Menu, Plus, RefreshCw, Radio, CheckCircle, AlertTriangle } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
+import { Menu, Plus, RefreshCw, AlertTriangle } from 'lucide-react';
 
 export const Header = ({ 
   onToggleSidebar, 
   onNewChat, 
   isBackendConnected, 
   isCheckingBackend,
-  onRecheckBackend 
+  onRecheckBackend,
+  theme,
+  onToggleTheme
 }) => {
   return (
-    <header className="h-16 bg-white/90 backdrop-blur-md border-b border-sky-100 px-4 sm:px-6 flex items-center justify-between z-20 sticky top-0 shadow-2xs">
+    <header className="h-16 bg-white/90 dark:bg-[#071a2f]/90 backdrop-blur-md border-b border-sky-100 dark:border-[#023e8a]/40 px-4 sm:px-6 flex items-center justify-between z-20 sticky top-0 shadow-2xs dark:shadow-[#020b18]/50 transition-colors duration-300">
       
       {/* Left side: Mobile Hamburger + Logo + Title */}
       <div className="flex items-center space-x-3">
         {/* Mobile Hamburger */}
         <button
           onClick={onToggleSidebar}
-          className="p-2 rounded-lg text-slate-600 hover:bg-sky-50 hover:text-sky-700 md:hidden transition-colors cursor-pointer"
+          className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-sky-50 dark:hover:bg-[#023e8a]/30 hover:text-sky-700 dark:hover:text-sky-300 md:hidden transition-colors cursor-pointer"
           title="Toggle Navigation"
         >
           <Menu className="w-5 h-5" />
@@ -27,34 +30,37 @@ export const Header = ({
         <div className="flex items-center space-x-2.5">
           <FootballLogo size="sm" />
           <div>
-            <h1 className="text-base font-bold text-slate-900 leading-tight tracking-tight flex items-center gap-1.5">
-              KickOff AI <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded-md bg-sky-100 text-sky-700">Chatbot</span>
+            <h1 className="text-base font-bold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1.5">
+              KickOff AI <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded-md bg-sky-100 dark:bg-[#023e8a]/50 text-sky-700 dark:text-sky-300 border border-transparent dark:border-[#0077b6]/30">Chatbot</span>
             </h1>
-            <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
               Tilak Representative
             </p>
           </div>
         </div>
       </div>
 
-      {/* Right side: Backend Health Indicator + New Chat Action */}
-      <div className="flex items-center space-x-2.5">
+      {/* Right side: Theme Toggle + Backend Health Indicator + New Chat Action */}
+      <div className="flex items-center space-x-2 sm:space-x-2.5">
         
+        {/* Theme Toggle Button */}
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+
         {/* Backend Status Badge */}
         <button
           onClick={onRecheckBackend}
           className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center space-x-1.5 border transition-all cursor-pointer ${
             isCheckingBackend
-              ? 'bg-amber-50 text-amber-700 border-amber-200'
+              ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/40'
               : isBackendConnected
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-              : 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50'
+              : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/40 hover:bg-rose-100 dark:hover:bg-rose-900/50'
           }`}
           title="Click to re-verify backend connectivity"
         >
           {isCheckingBackend ? (
             <>
-              <RefreshCw className="w-3 h-3 animate-spin text-amber-600" />
+              <RefreshCw className="w-3 h-3 animate-spin text-amber-600 dark:text-amber-400" />
               <span className="hidden sm:inline">Checking...</span>
             </>
           ) : isBackendConnected ? (
@@ -65,7 +71,7 @@ export const Header = ({
             </>
           ) : (
             <>
-              <AlertTriangle className="w-3 h-3 text-rose-500" />
+              <AlertTriangle className="w-3 h-3 text-rose-500 dark:text-rose-400" />
               <span className="hidden sm:inline">FastAPI Offline</span>
               <span className="sm:hidden">Offline</span>
             </>
@@ -75,7 +81,7 @@ export const Header = ({
         {/* New Chat Button */}
         <button
           onClick={onNewChat}
-          className="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold shadow-sm shadow-sky-600/20 flex items-center space-x-1 transition-all cursor-pointer active:scale-95"
+          className="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-[#023e8a] dark:hover:bg-[#0077b6] text-white text-xs font-semibold shadow-sm shadow-sky-600/20 dark:shadow-[#023e8a]/40 flex items-center space-x-1 transition-all cursor-pointer active:scale-95"
         >
           <Plus className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">New Chat</span>

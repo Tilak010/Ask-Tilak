@@ -19,11 +19,11 @@ const FormattedText = ({ content }) => {
 
         if (isList) {
           return (
-            <ul key={pIdx} className="list-disc list-inside space-y-1.5 pl-1 my-2 text-slate-700">
+            <ul key={pIdx} className="list-disc list-inside space-y-1.5 pl-1 my-2 text-slate-700 dark:text-slate-200">
               {lines.map((line, lIdx) => {
                 const cleanLine = line.trim().replace(/^[-*]\s+/, '');
                 return (
-                  <li key={lIdx} className="text-slate-700 font-normal break-words">
+                  <li key={lIdx} className="text-slate-700 dark:text-slate-200 font-normal break-words">
                     {parseInlineBold(cleanLine)}
                   </li>
                 );
@@ -52,7 +52,7 @@ const parseInlineBold = (text) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-semibold text-slate-900 break-words">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-semibold text-slate-900 dark:text-white break-words">{part.slice(2, -2)}</strong>;
     }
     return part;
   });
@@ -76,8 +76,8 @@ export const ChatMessage = ({ message }) => {
         {/* Avatar */}
         <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center shadow-xs flex-shrink-0 mt-0.5 ${
           isUser 
-            ? 'bg-sky-600 text-white shadow-sky-600/30' 
-            : 'bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 text-white shadow-sky-400/30'
+            ? 'bg-sky-600 dark:bg-[#023e8a] text-white shadow-sky-600/30 dark:shadow-[#023e8a]/40' 
+            : 'bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 dark:from-[#0077b6] dark:via-[#023e8a] dark:to-[#03045e] text-white shadow-sky-400/30'
         }`}>
           {isUser ? (
             <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -94,34 +94,34 @@ export const ChatMessage = ({ message }) => {
           {/* Header label for AI */}
           {!isUser && (
             <div className="flex items-center space-x-1.5 mb-1 px-1">
-              <span className="text-[11px] font-bold text-sky-800 tracking-wide uppercase">KickOff AI</span>
-              <span className="text-[10px] text-slate-400 font-medium">• Tilak AI</span>
+              <span className="text-[11px] font-bold text-sky-800 dark:text-sky-300 tracking-wide uppercase">KickOff AI</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-400 font-medium">• Tilak AI</span>
             </div>
           )}
 
           {/* Bubble content */}
           <div className={`rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 shadow-xs transition-all ${
             isUser
-              ? 'bg-sky-600 text-white rounded-tr-xs shadow-sky-500/20'
-              : 'bg-white border border-sky-100/90 text-slate-800 rounded-tl-xs shadow-slate-200/50 hover:shadow-sky-100'
+              ? 'bg-sky-600 dark:bg-[#023e8a] text-white rounded-tr-xs shadow-sky-500/20 dark:shadow-[#023e8a]/30'
+              : 'bg-white dark:bg-[#071a2f] border border-sky-100/90 dark:border-[#023e8a]/60 text-slate-800 dark:text-slate-100 rounded-tl-xs shadow-slate-200/50 dark:shadow-[#020b18]/60 hover:shadow-sky-100 dark:hover:shadow-[#023e8a]/20'
           }`}>
             <FormattedText content={message.text} />
           </div>
 
           {/* Footer bar (Timestamp & Copy button) */}
-          <div className={`flex items-center gap-2 mt-1 px-1 text-[10px] text-slate-400 ${isUser ? 'justify-end' : 'justify-between'}`}>
+          <div className={`flex items-center gap-2 mt-1 px-1 text-[10px] text-slate-400 dark:text-slate-400 ${isUser ? 'justify-end' : 'justify-between'}`}>
             <span>{message.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
             
             {!isUser && (
               <button
                 onClick={handleCopy}
-                className="opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-sky-600 flex items-center gap-1 cursor-pointer p-0.5"
+                className="opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-sky-600 dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer p-0.5"
                 title="Copy response"
               >
                 {copied ? (
                   <>
-                    <Check className="w-3 h-3 text-emerald-600" />
-                    <span className="text-emerald-600 font-medium">Copied</span>
+                    <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied</span>
                   </>
                 ) : (
                   <>

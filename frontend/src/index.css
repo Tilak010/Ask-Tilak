@@ -1,12 +1,23 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Custom Scrollbar */
+/* Smooth transitions for theme switching */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *:before,
+html.theme-transition *:after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, fill 0.2s ease, stroke 0.2s ease, box-shadow 0.3s ease !important;
+  transition-delay: 0s !important;
+}
+
+/* Custom Scrollbar - Light */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -23,6 +34,20 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #38bdf8;
+}
+
+/* Custom Scrollbar - Dark */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(2, 11, 24, 0.7);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #023e8a;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #0077b6;
 }
 
 /* Football-inspired keyframe animations */
@@ -74,6 +99,13 @@
   background-size: 32px 32px;
 }
 
+.dark .bg-football-pattern {
+  background-color: #020b18;
+  background-image: 
+    linear-gradient(to right, rgba(2, 62, 138, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(2, 62, 138, 0.15) 1px, transparent 1px);
+}
+
 .bg-pitch-stripes {
   background: repeating-linear-gradient(
     90deg,
@@ -84,6 +116,16 @@
   );
 }
 
+.dark .bg-pitch-stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(2, 11, 24, 0.9),
+    rgba(2, 11, 24, 0.9) 60px,
+    rgba(7, 26, 47, 0.8) 60px,
+    rgba(7, 26, 47, 0.8) 120px
+  );
+}
+
 /* Glassmorphism cards */
 .glass-panel {
   background: rgba(255, 255, 255, 0.85);
@@ -91,8 +133,14 @@
   border: 1px solid rgba(186, 230, 253, 0.6);
 }
 
-.glass-panel-dark {
-  background: rgba(15, 23, 42, 0.92);
+.dark .glass-panel {
+  background: rgba(7, 26, 47, 0.85);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(2, 62, 138, 0.45);
+}
+
+.glass-panel-dark {
+  background: rgba(2, 11, 24, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(2, 62, 138, 0.4);
 }
