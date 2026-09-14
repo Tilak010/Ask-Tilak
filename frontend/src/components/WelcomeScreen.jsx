@@ -1,6 +1,6 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
-import { Sparkles, Briefcase, Code, GraduationCap, ArrowRight } from 'lucide-react';
+import { Sparkles, Briefcase, Code, GraduationCap, ArrowRight, FileText, Download } from 'lucide-react';
 
 export const WelcomeScreen = ({ onSelectPrompt }) => {
   const promptSuggestions = [
@@ -53,9 +53,24 @@ export const WelcomeScreen = ({ onSelectPrompt }) => {
       <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2 sm:mb-2.5 transition-colors">
         Your AI Assistant
       </h1>
-      <p className="text-xs sm:text-lg text-slate-600 dark:text-slate-300 max-w-lg mb-5 sm:mb-8 leading-relaxed font-normal px-2 transition-colors">
+      <p className="text-xs sm:text-lg text-slate-600 dark:text-slate-300 max-w-lg mb-4 sm:mb-5 leading-relaxed font-normal px-2 transition-colors">
         Ask anything. <span className="font-semibold text-sky-600 dark:text-sky-400">Let's kick off the conversation</span> about Tilak's background, skills, and projects.
       </p>
+
+      {/* Hero CTA: Download Resume Button */}
+      <div className="mb-6 sm:mb-8 flex items-center justify-center w-full px-2">
+        <a
+          href="/my_resume.pdf"
+          download="my_resume.pdf"
+          className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-500 hover:to-blue-600 dark:from-[#023e8a] dark:to-[#0077b6] dark:hover:from-[#0353a4] dark:hover:to-[#0096c7] text-white font-semibold text-xs sm:text-sm shadow-md shadow-sky-600/20 dark:shadow-[#023e8a]/40 hover:shadow-lg hover:shadow-sky-600/30 dark:hover:shadow-[#0077b6]/30 border border-sky-400/20 dark:border-sky-400/30 transition-all duration-200 cursor-pointer active:scale-95 focus:outline-hidden focus:ring-2 focus:ring-sky-400/50 select-none"
+          aria-label="Download Tilak's Resume in PDF format"
+          title="Download Tilak's Resume (PDF)"
+        >
+          <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sky-200 group-hover:text-white transition-colors flex-shrink-0" />
+          <span className="tracking-wide font-medium">Download Resume</span>
+          <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-200 group-hover:text-white transition-transform duration-200 group-hover:translate-y-0.5 flex-shrink-0" />
+        </a>
+      </div>
 
       {/* Suggestion Prompt Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 w-full max-w-2xl text-left">

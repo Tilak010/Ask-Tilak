@@ -1,7 +1,7 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
 import ThemeToggle from './ThemeToggle';
-import { Menu, Plus, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Menu, Plus, RefreshCw, AlertTriangle, FileText, Download } from 'lucide-react';
 
 export const Header = ({ 
   onToggleSidebar, 
@@ -40,11 +40,24 @@ export const Header = ({
         </div>
       </div>
 
-      {/* Right side: Theme Toggle + Backend Health Indicator + New Chat Action */}
+      {/* Right side: Theme Toggle + Resume + Backend Health + New Chat */}
       <div className="flex items-center space-x-2 sm:space-x-2.5">
         
         {/* Theme Toggle Button */}
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+
+        {/* Download Resume (Tablet & Desktop) */}
+        <a
+          href="/my_resume.pdf"
+          download="my_resume.pdf"
+          className="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-sky-200/90 dark:border-[#023e8a] bg-sky-50/70 dark:bg-[#071a2f] hover:bg-sky-100 dark:hover:bg-[#0b2545] text-sky-700 dark:text-sky-300 text-xs font-semibold shadow-2xs transition-all duration-200 active:scale-95 group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-sky-400/40"
+          aria-label="Download Tilak's Resume in PDF format"
+          title="Download Resume (PDF)"
+        >
+          <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 group-hover:scale-105 transition-transform" />
+          <span>Resume</span>
+          <Download className="w-3 h-3 text-sky-500 dark:text-sky-400 transition-transform duration-200 group-hover:translate-y-0.5" />
+        </a>
 
         {/* Backend Status Badge */}
         <button

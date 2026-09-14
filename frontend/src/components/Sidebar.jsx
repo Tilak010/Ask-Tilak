@@ -1,7 +1,7 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
 import ThemeToggle from './ThemeToggle';
-import { Plus, MessageSquare, Trash2, X, Trophy, ChevronRight } from 'lucide-react';
+import { Plus, MessageSquare, Trash2, X, ChevronRight, FileText, Download } from 'lucide-react';
 
 export const Sidebar = ({ 
   isOpen, 
@@ -68,6 +68,22 @@ export const Sidebar = ({
             <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
             <span>New Chat</span>
           </button>
+
+          {/* Download Resume Button */}
+          <a
+            href="/my_resume.pdf"
+            download="my_resume.pdf"
+            onClick={() => {
+              if (window.innerWidth < 768) onClose();
+            }}
+            className="w-full mt-2 py-2 px-3 rounded-xl bg-slate-800/80 dark:bg-[#071a2f] hover:bg-slate-700/80 dark:hover:bg-[#0b2545] border border-sky-800/40 dark:border-[#023e8a]/60 text-sky-200 dark:text-sky-300 font-semibold text-xs shadow-xs flex items-center justify-center space-x-2 transition-all duration-200 group cursor-pointer active:scale-95 select-none"
+            aria-label="Download Tilak's Resume in PDF format"
+            title="Download Tilak's Resume (PDF)"
+          >
+            <FileText className="w-3.5 h-3.5 text-sky-400 group-hover:scale-105 transition-transform" />
+            <span>Download Resume</span>
+            <Download className="w-3.5 h-3.5 text-sky-300 group-hover:translate-y-0.5 transition-transform" />
+          </a>
         </div>
 
         {/* Middle: Conversation Sessions History */}
@@ -143,25 +159,6 @@ export const Sidebar = ({
           <div className="flex items-center justify-between px-2.5 py-2 rounded-xl bg-slate-900/80 dark:bg-[#071a2f] border border-slate-800 dark:border-[#023e8a]/50 text-xs text-slate-300">
             <span className="font-medium text-[11px] text-slate-300">Theme</span>
             <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-          </div>
-
-          {/* Tactical Pitch Lines Graphic Accent */}
-          <div className="p-2.5 rounded-xl bg-sky-950/50 dark:bg-[#071a2f]/50 border border-sky-800/30 dark:border-[#023e8a]/40 flex items-center justify-between text-[11px] text-sky-300/80">
-            <div className="flex items-center space-x-2">
-              <Trophy className="w-4 h-4 text-sky-400 flex-shrink-0" />
-              <div>
-                <span className="font-semibold text-white block leading-none">Tilak AI Hub</span>
-                <span className="text-[9px] text-slate-400">Tilak's AI Representative</span>
-              </div>
-            </div>
-
-            {/* Small football motif */}
-            <div className="w-5 h-5 rounded-full bg-sky-900/80 dark:bg-[#023e8a] flex items-center justify-center text-sky-300">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 3v18" />
-              </svg>
-            </div>
           </div>
         </div>
 
