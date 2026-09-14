@@ -6,13 +6,16 @@ import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import FootballLoader from './components/FootballLoader';
 import FootballBackground from './components/FootballBackground';
+import VisitorTypeSelector from './components/VisitorTypeSelector';
+import { VisitorModeProvider, useVisitorMode } from './context/VisitorModeContext';
+import { MODE_CONFIGS } from './data/portfolioData';
 import { sendChatMessage, checkBackendHealth } from './services/api';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Sparkles, ChevronRight } from 'lucide-react';
 
 const STORAGE_KEY = 'ask_tilak_chatbot_sessions_v1';
 const THEME_KEY = 'ask_tilak_theme_preference';
 
-export function App() {
+function AppContent() {
   // Theme state: defaults to saved preference or system dark mode
   const [theme, setTheme] = useState(() => {
     try {
@@ -50,6 +53,10 @@ export function App() {
   const handleToggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
+
+  // Visitor mode from Context
+  const { visitorMode, isSelectorOpen, closeSelector, openSelector } = useVisitorMode();
+  const currentConfig = visitorMode && MODE_CONFIGS[visitorMode];
 
   // Navigation & session state
   const [sessions, setSessions] = useState(() => {
@@ -318,6 +325,37 @@ export function App() {
           onToggleTheme={handleToggleTheme}
         />
 
+        {/* Mode-Aware Context Bar inside Active Conversation */}
+        {currentConfig && messages.length > 0 && (
+          <div className="mx-3 sm:mx-6 mt-2 px-3 py-1.5 rounded-xl bg-sky-50/90 dark:bg-[#071a2f]/90 border border-sky-200/80 dark:border-[#023e8a]/50 text-xs flex items-center justify-between gap-2 z-20 shadow-2xs">
+            <div className="flex items-center space-x-2 overflow-x-auto min-w-0 py-0.5">
+              <span className="font-semibold text-sky-800 dark:text-sky-300 flex items-center gap-1 flex-shrink-0 text-[11px]">
+                <Sparkles className="w-3 h-3 text-sky-500" />
+                {currentConfig.roleLabel} activated:
+              </span>
+              <div className="flex items-center gap-1.5 flex-nowrap">
+                {currentConfig.suggestedQuestions.slice(0, 3).map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => startChatWithMessage(q)}
+                    className="px-2 py-0.5 rounded-lg bg-white dark:bg-[#020b18] border border-sky-200 dark:border-[#023e8a]/60 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 hover:border-sky-400 text-[10px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1"
+                    title={`Ask: "${q}"`}
+                  >
+                    <span>{q}</span>
+                    <ChevronRight className="w-2.5 h-2.5 opacity-50" />
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button
+              onClick={openSelector}
+              className="text-[10px] text-sky-600 dark:text-sky-400 font-semibold hover:underline flex-shrink-0 cursor-pointer"
+            >
+              Change View
+            </button>
+          </div>
+        )}
+
         {/* Connection Warning Toast Banner */}
         {errorMessage && (
           <div className="mx-4 mt-3 p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl text-rose-800 dark:text-rose-200 text-xs flex items-start justify-between z-30 shadow-xs animate-fade-in">
@@ -338,7 +376,7 @@ export function App() {
         )}
 
         {/* Chat Area Scroll Container */}
-        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 flex flex-col z-10">
+        <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 flex flex-col z-10">
           {!activeSessionId || messages.length === 0 ? (
             <WelcomeScreen onSelectPrompt={startChatWithMessage} />
           ) : (
@@ -363,7 +401,20 @@ export function App() {
           focusTrigger={focusTrigger}
         />
       </div>
+
+      {/* Global Role Switcher Modal */}
+      {isSelectorOpen && (
+        <VisitorTypeSelector isModal={true} onClose={closeSelector} />
+      )}
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <VisitorModeProvider>
+      <AppContent />
+    </VisitorModeProvider>
   );
 }
 
