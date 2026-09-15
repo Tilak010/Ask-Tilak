@@ -1,7 +1,9 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
 import ThemeToggle from './ThemeToggle';
+import ViewSwitcher from './ViewSwitcher';
 import { Menu, Plus, RefreshCw, AlertTriangle, FileText, Download } from 'lucide-react';
+import { useVisitorMode } from '../context/VisitorModeContext';
 
 export const Header = ({ 
   onToggleSidebar, 
@@ -12,11 +14,12 @@ export const Header = ({
   theme,
   onToggleTheme
 }) => {
+  const { visitorMode } = useVisitorMode();
   return (
-    <header className="h-16 bg-white/90 dark:bg-[#071a2f]/90 backdrop-blur-md border-b border-sky-100 dark:border-[#023e8a]/40 px-4 sm:px-6 flex items-center justify-between z-20 sticky top-0 shadow-2xs dark:shadow-[#020b18]/50 transition-colors duration-300">
+    <header className="h-16 bg-white/90 dark:bg-[#071a2f]/90 backdrop-blur-md border-b border-sky-100 dark:border-[#023e8a]/40 px-3 sm:px-6 flex items-center justify-between z-20 sticky top-0 shadow-2xs dark:shadow-[#020b18]/50 transition-colors duration-300">
       
       {/* Left side: Mobile Hamburger + Logo + Title */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3">
         {/* Mobile Hamburger */}
         <button
           onClick={onToggleSidebar}
@@ -27,10 +30,10 @@ export const Header = ({
         </button>
 
         {/* Logo & Brand */}
-        <div className="flex items-center space-x-2.5">
+        <div className="flex items-center space-x-2 sm:space-x-2.5">
           <FootballLogo size="sm" />
           <div>
-            <h1 className="text-base font-bold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1.5">
+            <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1.5">
               KickOff AI <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded-md bg-sky-100 dark:bg-[#023e8a]/50 text-sky-700 dark:text-sky-300 border border-transparent dark:border-[#0077b6]/30">Chatbot</span>
             </h1>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
@@ -40,9 +43,12 @@ export const Header = ({
         </div>
       </div>
 
-      {/* Right side: Theme Toggle + Resume + Backend Health + New Chat */}
-      <div className="flex items-center space-x-2 sm:space-x-2.5">
+      {/* Right side: View Switcher + Theme Toggle + Resume + Backend Health + New Chat */}
+      <div className="flex items-center space-x-1.5 sm:space-x-2.5">
         
+        {/* View Switcher Dropdown (Personalized View Selector) */}
+        <ViewSwitcher />
+
         {/* Theme Toggle Button */}
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
@@ -50,13 +56,17 @@ export const Header = ({
         <a
           href="/my_resume.pdf"
           download="my_resume.pdf"
-          className="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-sky-200/90 dark:border-[#023e8a] bg-sky-50/70 dark:bg-[#071a2f] hover:bg-sky-100 dark:hover:bg-[#0b2545] text-sky-700 dark:text-sky-300 text-xs font-semibold shadow-2xs transition-all duration-200 active:scale-95 group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-sky-400/40"
+          className={`hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold shadow-2xs transition-all duration-200 active:scale-95 group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-sky-400/40 ${
+            visitorMode === 'recruiter'
+              ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white border-blue-400 shadow-blue-500/20 ring-2 ring-blue-400/30'
+              : 'border-sky-200/90 dark:border-[#023e8a] bg-sky-50/70 dark:bg-[#071a2f] hover:bg-sky-100 dark:hover:bg-[#0b2545] text-sky-700 dark:text-sky-300'
+          }`}
           aria-label="Download Tilak's Resume in PDF format"
           title="Download Resume (PDF)"
         >
-          <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 group-hover:scale-105 transition-transform" />
+          <FileText className={`w-3.5 h-3.5 ${visitorMode === 'recruiter' ? 'text-white' : 'text-sky-600 dark:text-sky-400'} group-hover:scale-105 transition-transform`} />
           <span>Resume</span>
-          <Download className="w-3 h-3 text-sky-500 dark:text-sky-400 transition-transform duration-200 group-hover:translate-y-0.5" />
+          <Download className={`w-3 h-3 ${visitorMode === 'recruiter' ? 'text-white' : 'text-sky-500 dark:text-sky-400'} transition-transform duration-200 group-hover:translate-y-0.5`} />
         </a>
 
         {/* Backend Status Badge */}

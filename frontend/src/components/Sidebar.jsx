@@ -1,7 +1,9 @@
 import React from 'react';
 import FootballLogo from './FootballLogo';
 import ThemeToggle from './ThemeToggle';
-import { Plus, MessageSquare, Trash2, X, ChevronRight, FileText, Download } from 'lucide-react';
+import { Plus, MessageSquare, Trash2, X, ChevronRight, FileText, Download, Sparkles, RefreshCw } from 'lucide-react';
+import { useVisitorMode } from '../context/VisitorModeContext';
+import { MODE_CONFIGS } from '../data/portfolioData';
 
 export const Sidebar = ({ 
   isOpen, 
@@ -15,6 +17,8 @@ export const Sidebar = ({
   theme,
   onToggleTheme
 }) => {
+  const { visitorMode, openSelector, resetToDefault } = useVisitorMode();
+  const currentConfig = visitorMode && MODE_CONFIGS[visitorMode];
   return (
     <>
       {/* Mobile Backdrop */}
@@ -69,6 +73,28 @@ export const Sidebar = ({
             <span>New Chat</span>
           </button>
 
+          {/* Active View Box with Change View CTA */}
+          <div className="mt-2.5 p-2.5 rounded-xl bg-slate-800/80 dark:bg-[#071a2f] border border-sky-800/40 dark:border-[#023e8a]/60 flex items-center justify-between">
+            <div className="min-w-0 pr-1">
+              <span className="text-[9px] uppercase font-bold text-sky-400 block tracking-wider">
+                Active View
+              </span>
+              <span className="text-xs font-semibold text-slate-200 truncate block">
+                {currentConfig ? `${currentConfig.badge}` : 'Default / General'}
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                openSelector();
+                if (window.innerWidth < 768) onClose();
+              }}
+              className="px-2 py-1 rounded-lg bg-sky-600/30 hover:bg-sky-600/50 text-sky-300 text-[10px] font-semibold transition-colors cursor-pointer flex-shrink-0"
+              title="Change personalization view"
+            >
+              Change
+            </button>
+          </div>
+
           {/* Download Resume Button */}
           <a
             href="/my_resume.pdf"
@@ -76,7 +102,7 @@ export const Sidebar = ({
             onClick={() => {
               if (window.innerWidth < 768) onClose();
             }}
-            className="w-full mt-2 py-2 px-3 rounded-xl bg-slate-800/80 dark:bg-[#071a2f] hover:bg-slate-700/80 dark:hover:bg-[#0b2545] border border-sky-800/40 dark:border-[#023e8a]/60 text-sky-200 dark:text-sky-300 font-semibold text-xs shadow-xs flex items-center justify-center space-x-2 transition-all duration-200 group cursor-pointer active:scale-95 select-none"
+            className="w-full mt-2 py-2 px-3 rounded-xl bg-slate-800/60 dark:bg-[#041327] hover:bg-slate-700/80 dark:hover:bg-[#0b2545] border border-sky-800/30 dark:border-[#023e8a]/50 text-sky-200 dark:text-sky-300 font-semibold text-xs shadow-xs flex items-center justify-center space-x-2 transition-all duration-200 group cursor-pointer active:scale-95 select-none"
             aria-label="Download Tilak's Resume in PDF format"
             title="Download Tilak's Resume (PDF)"
           >
