@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
 
-export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrigger }) => {
+export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrigger, placeholder }) => {
   const [input, setInput] = useState('');
   const textareaRef = useRef(null);
 
@@ -9,13 +9,13 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
     }
   }, [input]);
 
   // Auto-focus textarea when active session changes or focus trigger is updated
   useEffect(() => {
-    if (textareaRef.current) {
+    if (textareaRef.current && window.innerWidth >= 768) {
       textareaRef.current.focus();
     }
   }, [activeSessionId, focusTrigger]);
@@ -38,54 +38,46 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-2.5 sm:px-4 pb-3 sm:pb-4 pt-1.5 z-20">
+    <div className="w-full max-w-3xl mx-auto px-3 pb-3 sm:pb-4 pt-1 z-20">
       <form onSubmit={handleSubmit} className="relative">
-        <div className="relative flex items-center bg-white dark:bg-[#071a2f] rounded-2xl border border-sky-200/90 dark:border-[#023e8a] shadow-lg shadow-sky-500/10 dark:shadow-xl dark:shadow-[#020b18]/70 focus-within:border-sky-400 dark:focus-within:border-[#0077b6] focus-within:ring-2 focus-within:ring-sky-300/40 dark:focus-within:ring-[#0077b6]/30 transition-all">
+        <div className="relative flex items-center bg-white dark:bg-[#3A2924] rounded-2xl border border-[#E8D5C7] dark:border-[#59433A] shadow-md shadow-[#C65D3A]/5 dark:shadow-black/40 focus-within:border-[#C65D3A] dark:focus-within:border-[#D96B45] focus-within:ring-2 focus-within:ring-[#C65D3A]/20 transition-all">
           
-          {/* Football Kickoff Icon inside left input */}
-          <div className="pl-3 sm:pl-3.5 pr-1 text-sky-500 dark:text-sky-400 flex items-center justify-center flex-shrink-0">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
-              <circle cx="12" cy="12" r="9" className="opacity-80" />
-              <path d="M12 7v10M7 12h10" strokeDasharray="3 3" />
-            </svg>
-          </div>
-
-          {/* Textarea (text-base on mobile prevents iOS Safari auto-zoom on focus) */}
+          {/* Textarea (16px text-base on mobile avoids iOS zoom) */}
           <textarea
             ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything about Tilak's skills, experience, or projects..."
+            placeholder={placeholder || "Ask Tilak's AI anything about his skills, projects, or background..."}
             rows={1}
             disabled={isLoading}
-            className="w-full py-3 px-2 sm:px-3 text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 bg-transparent resize-none focus:outline-hidden disabled:opacity-50 max-h-36 overflow-y-auto font-sans"
+            className="w-full py-3 px-3.5 sm:px-4 text-base sm:text-sm text-[#2D211D] dark:text-[#FFF4EA] placeholder-[#6F5B52]/60 dark:placeholder-[#D5C0B5]/60 bg-transparent resize-none focus:outline-hidden disabled:opacity-50 max-h-32 overflow-y-auto font-sans leading-relaxed"
           />
 
-          {/* Submit Button */}
-          <div className="pr-2 sm:pr-2.5 flex items-center space-x-1.5 flex-shrink-0">
+          {/* Send Button */}
+          <div className="pr-2 flex items-center flex-shrink-0">
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className={`p-2.5 rounded-xl flex items-center justify-center transition-all duration-200 min-w-[40px] min-h-[40px] ${
+              className={`p-2.5 rounded-xl flex items-center justify-center transition-all duration-200 w-10 h-10 ${
                 input.trim() && !isLoading
-                  ? 'bg-gradient-to-r from-sky-500 to-blue-600 dark:from-[#023e8a] dark:to-[#0077b6] text-white shadow-md shadow-sky-500/30 dark:shadow-[#023e8a]/40 hover:scale-105 active:scale-95 cursor-pointer'
-                  : 'bg-slate-100 dark:bg-[#030d1e] text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                  ? 'bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white shadow-sm hover:scale-105 active:scale-95 cursor-pointer'
+                  : 'bg-[#F7EDE3] dark:bg-[#30221E] text-[#6F5B52]/50 dark:text-[#D5C0B5]/40 cursor-not-allowed'
               }`}
-              title="Kickoff question"
+              title="Send message"
+              aria-label="Send message"
             >
-              <Send className="w-4 h-4 transform rotate-45" />
+              <Send className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Keyboard shortcut hint */}
-        <div className="flex items-center justify-between px-3 mt-1 text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-400 font-medium">
+        <div className="flex items-center justify-between px-2 mt-1 text-[11px] text-[#6F5B52] dark:text-[#D5C0B5]">
           <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-            Press <kbd className="px-1 py-0.5 bg-slate-100 dark:bg-[#030d1e] border border-slate-200 dark:border-[#023e8a]/50 rounded-sm font-mono text-[9px] sm:text-[10px] text-slate-600 dark:text-slate-300">Enter ↵</kbd> to send
+            Press <kbd className="px-1 py-0.2 bg-[#F7EDE3] dark:bg-[#241A17] border border-[#E8D5C7] dark:border-[#59433A] rounded text-[10px] font-mono text-[#6F5B52] dark:text-[#D5C0B5]">Enter ↵</kbd> to send
           </span>
-          <span className="hidden sm:inline-block">Ask Tilak AI Representative</span>
+          <span className="hidden sm:inline">Grounded on Resume & Projects</span>
         </div>
 
       </form>

@@ -16,7 +16,7 @@ export const FootballLogo = ({ size = 'md', className = '' }) => {
   };
 
   return (
-    <div className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/25 ${sizeClasses[size]} ${className}`}>
+    <div className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[#C65D3A] via-[#D96B45] to-[#E9A23B] text-white shadow-md shadow-[#C65D3A]/25 ${sizeClasses[size]} ${className}`}>
       {/* Subtle football stitching overlay in SVG */}
       <svg
         width={iconSizes[size]}
@@ -42,8 +42,8 @@ export const FootballLogo = ({ size = 'md', className = '' }) => {
       </svg>
       
       {/* AI Sparkle badge accent on top right */}
-      <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-sky-200 border-2 border-slate-900 rounded-full flex items-center justify-center animate-pulse">
-        <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+      <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#FFF1E6] border-2 border-[#241A17] dark:border-[#3A2924] rounded-full flex items-center justify-center animate-pulse">
+        <div className="w-1.5 h-1.5 bg-[#C65D3A] rounded-full"></div>
       </div>
     </div>
   );

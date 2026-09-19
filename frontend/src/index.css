@@ -2,9 +2,36 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --color-primary: #C65D3A;
+  --color-primary-hover: #A94A2E;
+  --color-accent: #E9A23B;
+  --color-bg: #FFF8F0;
+  --color-bg-secondary: #F7EDE3;
+  --color-card: #FFF1E6;
+  --color-text: #2D211D;
+  --color-text-muted: #6F5B52;
+  --color-border: #E8D5C7;
+}
+
+.dark {
+  --color-primary: #D96B45;
+  --color-primary-hover: #E47B52;
+  --color-accent: #F0B35A;
+  --color-bg: #241A17;
+  --color-bg-secondary: #30221E;
+  --color-card: #3A2924;
+  --color-text: #FFF4EA;
+  --color-text-muted: #D5C0B5;
+  --color-border: #59433A;
+}
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--color-bg);
+    color: var(--color-text);
   }
 }
 
@@ -13,134 +40,68 @@ html.theme-transition,
 html.theme-transition *,
 html.theme-transition *:before,
 html.theme-transition *:after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, fill 0.2s ease, stroke 0.2s ease, box-shadow 0.3s ease !important;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease, box-shadow 0.25s ease !important;
   transition-delay: 0s !important;
 }
 
-/* Custom Scrollbar - Light */
+/* Custom Scrollbar - Light (Warm palette) */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(240, 249, 255, 0.5);
+  background: #F7EDE3;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #93c5fd;
+  background: #E8D5C7;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
+  background: #C65D3A;
 }
 
-/* Custom Scrollbar - Dark */
+/* Custom Scrollbar - Dark (Warm palette) */
 .dark ::-webkit-scrollbar-track {
-  background: rgba(2, 11, 24, 0.7);
+  background: #241A17;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #023e8a;
+  background: #59433A;
   border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #0077b6;
+  background: #D96B45;
 }
 
-/* Football-inspired keyframe animations */
-@keyframes footballBounce {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
+/* Subtle, restrained animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
-  50% {
-    transform: translateY(-8px) rotate(180deg);
-  }
-}
-
-@keyframes pitchGlow {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.8;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes stadiumPulse {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(14, 165, 233, 0.45);
-  }
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-football-bounce {
-  animation: footballBounce 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-}
-
-.animate-pitch-glow {
-  animation: pitchGlow 3s ease-in-out infinite;
-}
-
-.animate-stadium-pulse {
-  animation: stadiumPulse 2.5s ease-in-out infinite;
-}
-
-/* Subtle Pitch Vector Background Grid */
-.bg-football-pattern {
-  background-color: #f8fafc;
-  background-image: 
-    linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.dark .bg-football-pattern {
-  background-color: #020b18;
-  background-image: 
-    linear-gradient(to right, rgba(2, 62, 138, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(2, 62, 138, 0.15) 1px, transparent 1px);
-}
-
-.bg-pitch-stripes {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(240, 249, 255, 0.8),
-    rgba(240, 249, 255, 0.8) 60px,
-    rgba(224, 242, 254, 0.6) 60px,
-    rgba(224, 242, 254, 0.6) 120px
-  );
-}
-
-.dark .bg-pitch-stripes {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(2, 11, 24, 0.9),
-    rgba(2, 11, 24, 0.9) 60px,
-    rgba(7, 26, 47, 0.8) 60px,
-    rgba(7, 26, 47, 0.8) 120px
-  );
-}
-
-/* Glassmorphism cards */
+/* Clean glass cards with warm tones */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 241, 230, 0.92);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(186, 230, 253, 0.6);
+  border: 1px solid #E8D5C7;
 }
 
 .dark .glass-panel {
-  background: rgba(7, 26, 47, 0.85);
+  background: rgba(58, 41, 36, 0.92);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(2, 62, 138, 0.45);
-}
-
-.glass-panel-dark {
-  background: rgba(2, 11, 24, 0.92);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(2, 62, 138, 0.4);
+  border: 1px solid #59433A;
 }
