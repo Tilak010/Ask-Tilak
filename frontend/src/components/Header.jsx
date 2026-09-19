@@ -1,116 +1,198 @@
-import React from 'react';
-import FootballLogo from './FootballLogo';
+import React, { useState } from 'react';
 import ThemeToggle from './ThemeToggle';
 import ViewSwitcher from './ViewSwitcher';
-import { Menu, Plus, RefreshCw, AlertTriangle, FileText, Download } from 'lucide-react';
+import { Menu, X, Sparkles, FileText, Download, MessageSquare, Bot } from 'lucide-react';
 import { useVisitorMode } from '../context/VisitorModeContext';
 
 export const Header = ({ 
   onToggleSidebar, 
-  onNewChat, 
+  onNewChat,
+  onOpenChat,
+  isChatOpen,
   isBackendConnected, 
   isCheckingBackend,
   onRecheckBackend,
   theme,
-  onToggleTheme
+  onToggleTheme,
+  onNavigate
 }) => {
   const { visitorMode } = useVisitorMode();
-  return (
-    <header className="h-16 bg-white/90 dark:bg-[#071a2f]/90 backdrop-blur-md border-b border-sky-100 dark:border-[#023e8a]/40 px-3 sm:px-6 flex items-center justify-between z-20 sticky top-0 shadow-2xs dark:shadow-[#020b18]/50 transition-colors duration-300">
-      
-      {/* Left side: Mobile Hamburger + Logo + Title */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
-        {/* Mobile Hamburger */}
-        <button
-          onClick={onToggleSidebar}
-          className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-sky-50 dark:hover:bg-[#023e8a]/30 hover:text-sky-700 dark:hover:text-sky-300 md:hidden transition-colors cursor-pointer"
-          title="Toggle Navigation"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-        {/* Logo & Brand */}
-        <div className="flex items-center space-x-2 sm:space-x-2.5">
-          <FootballLogo size="sm" />
+  const handleNavClick = (sectionId) => {
+    if (onNavigate) {
+      onNavigate(sectionId);
+    } else {
+      const el = document.getElementById(`portfolio-section-${sectionId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <header className="h-16 bg-[#FFF8F0]/95 dark:bg-[#241A17]/95 backdrop-blur-md border-b border-[#E8D5C7] dark:border-[#59433A] px-3 sm:px-6 flex items-center justify-between z-30 sticky top-0 shadow-xs transition-colors duration-250">
+      
+      {/* Brand: Tilak Shrivastava & AI Badge */}
+      <div className="flex items-center space-x-3">
+        <button 
+          onClick={() => handleNavClick('hero')}
+          className="flex items-center space-x-2.5 text-left group cursor-pointer focus:outline-hidden"
+          title="Scroll to top"
+        >
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#C65D3A] to-[#E9A23B] dark:from-[#D96B45] dark:to-[#F0B35A] text-white font-bold flex items-center justify-center text-sm shadow-xs group-hover:scale-105 transition-transform">
+            TS
+          </div>
           <div>
-            <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1.5">
-              KickOff AI <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded-md bg-sky-100 dark:bg-[#023e8a]/50 text-sky-700 dark:text-sky-300 border border-transparent dark:border-[#0077b6]/30">Chatbot</span>
+            <h1 className="text-sm sm:text-base font-bold text-[#2D211D] dark:text-[#FFF4EA] leading-tight tracking-tight flex items-center gap-1.5">
+              <span>Tilak Shrivastava</span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-[#F7EDE3] dark:bg-[#30221E] text-[#C65D3A] dark:text-[#D96B45] text-[10px] font-semibold border border-[#E8D5C7] dark:border-[#59433A]">
+                <Bot className="w-2.5 h-2.5" /> AI Powered
+              </span>
             </h1>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
-              Tilak Representative
+            <p className="text-[11px] text-[#6F5B52] dark:text-[#D5C0B5] font-medium hidden md:block">
+              Software Developer • Systems & AI
             </p>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* Right side: View Switcher + Theme Toggle + Resume + Backend Health + New Chat */}
-      <div className="flex items-center space-x-1.5 sm:space-x-2.5">
+      {/* Center Navigation Links (Desktop) */}
+      <nav className="hidden lg:flex items-center space-x-1 text-xs font-medium text-[#6F5B52] dark:text-[#D5C0B5]">
+        <button
+          onClick={() => handleNavClick('projects')}
+          className="px-2.5 py-1.5 rounded-lg hover:text-[#C65D3A] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+        >
+          Projects
+        </button>
+        <button
+          onClick={() => handleNavClick('skills')}
+          className="px-2.5 py-1.5 rounded-lg hover:text-[#C65D3A] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+        >
+          Skills
+        </button>
+        <button
+          onClick={() => handleNavClick('experience')}
+          className="px-2.5 py-1.5 rounded-lg hover:text-[#C65D3A] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+        >
+          About & Experience
+        </button>
+        <button
+          onClick={() => handleNavClick('achievements')}
+          className="px-2.5 py-1.5 rounded-lg hover:text-[#C65D3A] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+        >
+          LeetCode
+        </button>
+        <button
+          onClick={() => handleNavClick('contact')}
+          className="px-2.5 py-1.5 rounded-lg hover:text-[#C65D3A] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+        >
+          Contact
+        </button>
+      </nav>
+
+      {/* Right Controls: View Switcher, AI Chatbot button, Resume, Theme Toggle, Mobile Menu */}
+      <div className="flex items-center space-x-2 sm:space-x-2.5">
         
-        {/* View Switcher Dropdown (Personalized View Selector) */}
-        <ViewSwitcher />
+        {/* Compact View Switcher */}
+        <ViewSwitcher compact={true} />
+
+        {/* AI Chatbot Launcher Button */}
+        <button
+          onClick={onOpenChat}
+          className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-xs transition-all cursor-pointer active:scale-95 ${
+            isChatOpen
+              ? 'bg-[#C65D3A] dark:bg-[#D96B45] text-white ring-2 ring-[#E9A23B]/40'
+              : 'bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white shadow-sm'
+          }`}
+          title="Open AI Chat Assistant"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-[#FFF4EA]" />
+          <span className="hidden sm:inline">Ask AI Bot</span>
+          <span className="sm:hidden">AI</span>
+        </button>
+
+        {/* Resume Download (Tablet & Desktop) */}
+        <a
+          href="/my_resume.pdf"
+          download="my_resume.pdf"
+          className="hidden sm:inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl border border-[#E8D5C7] dark:border-[#59433A] bg-[#FFF1E6] dark:bg-[#30221E] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] text-[#2D211D] dark:text-[#FFF4EA] text-xs font-semibold shadow-2xs transition-colors select-none"
+          title="Download Tilak's Resume (PDF)"
+        >
+          <FileText className="w-3.5 h-3.5 text-[#C65D3A] dark:text-[#D96B45]" />
+          <span>Resume</span>
+          <Download className="w-3 h-3 text-[#6F5B52] dark:text-[#D5C0B5]" />
+        </a>
 
         {/* Theme Toggle Button */}
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
-        {/* Download Resume (Tablet & Desktop) */}
-        <a
-          href="/my_resume.pdf"
-          download="my_resume.pdf"
-          className={`hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold shadow-2xs transition-all duration-200 active:scale-95 group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-sky-400/40 ${
-            visitorMode === 'recruiter'
-              ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white border-blue-400 shadow-blue-500/20 ring-2 ring-blue-400/30'
-              : 'border-sky-200/90 dark:border-[#023e8a] bg-sky-50/70 dark:bg-[#071a2f] hover:bg-sky-100 dark:hover:bg-[#0b2545] text-sky-700 dark:text-sky-300'
-          }`}
-          aria-label="Download Tilak's Resume in PDF format"
-          title="Download Resume (PDF)"
-        >
-          <FileText className={`w-3.5 h-3.5 ${visitorMode === 'recruiter' ? 'text-white' : 'text-sky-600 dark:text-sky-400'} group-hover:scale-105 transition-transform`} />
-          <span>Resume</span>
-          <Download className={`w-3 h-3 ${visitorMode === 'recruiter' ? 'text-white' : 'text-sky-500 dark:text-sky-400'} transition-transform duration-200 group-hover:translate-y-0.5`} />
-        </a>
-
-        {/* Backend Status Badge */}
+        {/* Mobile Menu Button */}
         <button
-          onClick={onRecheckBackend}
-          className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center space-x-1.5 border transition-all cursor-pointer ${
-            isCheckingBackend
-              ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/40'
-              : isBackendConnected
-              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50'
-              : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/40 hover:bg-rose-100 dark:hover:bg-rose-900/50'
-          }`}
-          title="Click to re-verify backend connectivity"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden p-2 rounded-xl text-[#2D211D] dark:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors cursor-pointer"
+          aria-label="Toggle navigation menu"
         >
-          {isCheckingBackend ? (
-            <>
-              <RefreshCw className="w-3 h-3 animate-spin text-amber-600 dark:text-amber-400" />
-              <span className="hidden sm:inline">Checking...</span>
-            </>
-          ) : isBackendConnected ? (
-            <>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="hidden sm:inline">FastAPI Online</span>
-              <span className="sm:hidden">Online</span>
-            </>
-          ) : (
-            <>
-              <AlertTriangle className="w-3 h-3 text-rose-500 dark:text-rose-400" />
-              <span className="hidden sm:inline">FastAPI Offline</span>
-              <span className="sm:hidden">Offline</span>
-            </>
-          )}
-        </button>
-
-        {/* New Chat Button */}
-        <button
-          onClick={onNewChat}
-          className="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-[#023e8a] dark:hover:bg-[#0077b6] text-white text-xs font-semibold shadow-sm shadow-sky-600/20 dark:shadow-[#023e8a]/40 flex items-center space-x-1 transition-all cursor-pointer active:scale-95"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">New Chat</span>
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
 
       </div>
+
+      {/* Mobile Drawer Navigation */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-x-0 top-16 bg-[#FFF8F0] dark:bg-[#241A17] border-b border-[#E8D5C7] dark:border-[#59433A] p-4 shadow-xl z-40 animate-fade-in space-y-3">
+          <div className="grid grid-cols-2 gap-2 text-xs font-medium">
+            <button
+              onClick={() => handleNavClick('projects')}
+              className="p-2.5 rounded-xl bg-[#FFF1E6] dark:bg-[#30221E] text-[#2D211D] dark:text-[#FFF4EA] text-left hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]"
+            >
+              💼 Projects
+            </button>
+            <button
+              onClick={() => handleNavClick('skills')}
+              className="p-2.5 rounded-xl bg-[#FFF1E6] dark:bg-[#30221E] text-[#2D211D] dark:text-[#FFF4EA] text-left hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]"
+            >
+              ⚡ Skills
+            </button>
+            <button
+              onClick={() => handleNavClick('experience')}
+              className="p-2.5 rounded-xl bg-[#FFF1E6] dark:bg-[#30221E] text-[#2D211D] dark:text-[#FFF4EA] text-left hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]"
+            >
+              📄 About & Resume
+            </button>
+            <button
+              onClick={() => handleNavClick('contact')}
+              className="p-2.5 rounded-xl bg-[#FFF1E6] dark:bg-[#30221E] text-[#2D211D] dark:text-[#FFF4EA] text-left hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]"
+            >
+              📫 Contact
+            </button>
+          </div>
+
+          <div className="pt-2 border-t border-[#E8D5C7] dark:border-[#59433A] flex items-center justify-between gap-2">
+            <a
+              href="/my_resume.pdf"
+              download="my_resume.pdf"
+              className="flex-1 py-2 px-3 rounded-xl bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-xs"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download Resume PDF</span>
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onToggleSidebar) onToggleSidebar();
+              }}
+              className="py-2 px-3 rounded-xl border border-[#E8D5C7] dark:border-[#59433A] text-[#2D211D] dark:text-[#FFF4EA] text-xs font-semibold flex items-center justify-center gap-1"
+              title="Chat History"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-[#C65D3A] dark:text-[#D96B45]" />
+              <span>History</span>
+            </button>
+          </div>
+        </div>
+      )}
+
     </header>
   );
 };

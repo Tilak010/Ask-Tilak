@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Briefcase, 
   Code, 
   GraduationCap, 
   Users, 
-  Terminal, 
-  Server, 
-  ExternalLink, 
+  Cpu, 
+  Award, 
+  MessageSquare, 
+  ArrowUpRight,
   FileText, 
   Download, 
   Mail, 
   Phone, 
   MapPin, 
-  Cpu, 
-  Layers, 
-  Award, 
-  MessageSquare, 
-  ChevronRight, 
   Sparkles,
-  ArrowUpRight,
-  GitBranch,
-  ShieldCheck
+  ExternalLink
 } from 'lucide-react';
 import { 
   PROJECTS_DATA, 
@@ -35,21 +29,20 @@ import { useVisitorMode } from '../context/VisitorModeContext';
 
 export const PersonalizedPortfolio = ({ onAskQuestion }) => {
   const { visitorMode } = useVisitorMode();
-  const [activeTab, setActiveTab] = useState('all');
 
   // Determine section order based on mode
   const getSectionOrder = () => {
     switch (visitorMode) {
       case 'recruiter':
-        return ['projects', 'skills', 'experience', 'resume', 'achievements', 'contact'];
+        return ['projects', 'skills', 'experience', 'achievements', 'contact'];
       case 'developer':
-        return ['projects', 'architecture', 'skills', 'github', 'experience'];
+        return ['projects', 'architecture', 'skills', 'experience', 'achievements'];
       case 'student':
-        return ['projects', 'skills', 'learning', 'education', 'achievements'];
+        return ['projects', 'skills', 'education', 'achievements', 'contact'];
       case 'collaborator':
         return ['contact', 'projects', 'skills', 'experience'];
       default:
-        return ['projects', 'skills', 'architecture', 'education', 'achievements', 'contact'];
+        return ['projects', 'skills', 'architecture', 'experience', 'achievements', 'education', 'contact'];
     }
   };
 
@@ -67,53 +60,8 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
 
   const orderedProjects = getOrderedProjects();
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(`portfolio-section-${id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
-    <div className="w-full max-w-4xl mx-auto mt-6 text-left space-y-8 animate-fade-in transition-all">
-      
-      {/* Dynamic Navigation Pills / Quick Jump based on mode priority */}
-      <div className="sticky top-2 z-20 bg-white/90 dark:bg-[#071a2f]/90 backdrop-blur-md p-2 rounded-2xl border border-sky-100 dark:border-[#023e8a]/50 shadow-xs flex items-center justify-between gap-1.5 overflow-x-auto text-xs">
-        <div className="flex items-center gap-1.5 min-w-max">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 px-2">
-            Priority Flow:
-          </span>
-          {sectionOrder.map((sectionKey, idx) => {
-            const sectionNames = {
-              projects: 'Projects',
-              skills: 'Skills',
-              experience: 'Experience',
-              resume: 'Resume',
-              achievements: 'LeetCode & DSA',
-              contact: 'Contact',
-              architecture: 'Architecture',
-              learning: 'Learning Path',
-              education: 'Education',
-              github: 'Code & Systems',
-            };
-            return (
-              <button
-                key={sectionKey}
-                onClick={() => scrollToSection(sectionKey)}
-                className={`px-3 py-1 rounded-xl font-medium transition-all cursor-pointer flex items-center gap-1 ${
-                  idx === 0
-                    ? 'bg-sky-600 dark:bg-[#023e8a] text-white shadow-xs font-semibold'
-                    : 'bg-slate-100 dark:bg-[#020b18] text-slate-600 dark:text-slate-300 hover:bg-sky-50 dark:hover:bg-[#0b2545]'
-                }`}
-              >
-                <span>{sectionNames[sectionKey] || sectionKey}</span>
-                {idx === 0 && <span className="text-[10px] opacity-80 font-normal">• Top Priority</span>}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
+    <div className="w-full max-w-4xl mx-auto mt-8 text-left space-y-12 animate-fade-in transition-all">
       {/* Render Sections in Dynamic Order */}
       {sectionOrder.map((sectionKey) => {
         switch (sectionKey) {
@@ -122,82 +70,82 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
               <section
                 key="projects"
                 id="portfolio-section-projects"
-                className="scroll-mt-16 space-y-4"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-sky-100 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <Briefcase className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                       Featured Engineering Projects
-                    </h3>
+                    </h2>
                   </div>
-                  <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold">
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
                     {visitorMode ? `${MODE_CONFIGS[visitorMode]?.title || 'Custom'} Order` : 'All Projects'}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {orderedProjects.map((project, idx) => {
-                    const isTopPriority = idx === 0;
+                    const isTopPriority = idx === 0 && !!visitorMode;
                     return (
                       <div
                         key={project.id}
-                        className={`group relative p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#071a2f] border transition-all duration-200 flex flex-col justify-between ${
+                        className={`p-5 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border transition-all duration-200 flex flex-col justify-between ${
                           isTopPriority
-                            ? 'border-sky-400 dark:border-[#0077b6] shadow-md shadow-sky-500/10 dark:shadow-[#023e8a]/30 ring-1 ring-sky-400/20'
-                            : 'border-slate-200 dark:border-[#023e8a]/40 hover:border-sky-300 dark:hover:border-[#0077b6]'
+                            ? 'border-[#C65D3A] dark:border-[#D96B45] shadow-md shadow-[#C65D3A]/10'
+                            : 'border-[#E8D5C7] dark:border-[#59433A] hover:border-[#C65D3A]/60 dark:hover:border-[#D96B45]/60 shadow-xs'
                         }`}
                       >
                         <div>
-                          {/* Category Tag & Badges */}
-                          <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-sky-50 dark:bg-[#020b18] text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-[#023e8a]/50">
+                          {/* Header: Category + Tag */}
+                          <div className="flex items-center justify-between mb-2.5 flex-wrap gap-1">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#F7EDE3] dark:bg-[#241A17] text-[#6F5B52] dark:text-[#D5C0B5] border border-[#E8D5C7] dark:border-[#59433A]">
                               {project.category}
                             </span>
-                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                            <span className="text-[10px] font-semibold text-[#C65D3A] dark:text-[#F0B35A]">
                               {project.highlightTag}
                             </span>
                           </div>
 
-                          <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors">
+                          <h3 className="text-base font-bold text-[#2D211D] dark:text-[#FFF4EA] mb-1 leading-snug">
                             {project.title}
-                          </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2.5 font-medium">
+                          </h3>
+                          <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] mb-3 font-medium">
                             {project.subtitle}
                           </p>
 
-                          <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
+                          <p className="text-xs text-[#2D211D]/85 dark:text-[#FFF4EA]/85 mb-3.5 leading-relaxed">
                             {project.description}
                           </p>
 
-                          {/* Mode-Tailored Relevance Callout */}
+                          {/* Mode-Tailored Callout */}
                           {visitorMode && project.relevance[visitorMode] && (
-                            <div className="p-2.5 rounded-xl bg-sky-50/70 dark:bg-[#020b18]/70 border border-sky-100 dark:border-[#023e8a]/40 text-xs mb-3">
-                              <span className="font-semibold text-sky-800 dark:text-sky-300 block text-[11px] mb-0.5">
+                            <div className="p-2.5 rounded-xl bg-[#F7EDE3]/80 dark:bg-[#241A17]/80 border border-[#E8D5C7] dark:border-[#59433A] text-xs mb-3.5">
+                              <span className="font-semibold text-[#C65D3A] dark:text-[#F0B35A] block text-[11px] mb-0.5">
                                 💡 Why this matters for {MODE_CONFIGS[visitorMode]?.title}:
                               </span>
-                              <span className="text-slate-600 dark:text-slate-300 text-[11px]">
+                              <span className="text-[#6F5B52] dark:text-[#D5C0B5] text-[11px]">
                                 {project.relevance[visitorMode]}
                               </span>
                             </div>
                           )}
 
-                          {/* Architecture Note if in Developer view */}
+                          {/* Architecture Note if developer mode */}
                           {visitorMode === 'developer' && project.architectureDetails && (
-                            <div className="p-2.5 rounded-xl bg-slate-900 text-emerald-300 font-mono text-[11px] mb-3 border border-emerald-900/40">
-                              <span className="text-emerald-400 font-bold block mb-1">Architecture Details:</span>
+                            <div className="p-2.5 rounded-xl bg-[#241A17] text-[#F0B35A] font-mono text-[11px] mb-3.5 border border-[#59433A]">
+                              <span className="text-[#E9A23B] font-bold block mb-1">Architecture Details:</span>
                               {project.architectureDetails}
                             </div>
                           )}
 
                           {/* Tech Stack Badges */}
-                          <div className="flex flex-wrap gap-1 mb-3">
+                          <div className="flex flex-wrap gap-1.5 mb-4">
                             {project.techStack.map((tech) => (
                               <span
                                 key={tech}
-                                className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#020b18] text-slate-600 dark:text-slate-300 font-medium"
+                                className="text-[10px] px-2 py-0.5 rounded-md bg-[#F7EDE3] dark:bg-[#241A17] text-[#6F5B52] dark:text-[#D5C0B5] font-medium"
                               >
                                 {tech}
                               </span>
@@ -205,13 +153,13 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
                           </div>
                         </div>
 
-                        {/* Card Footer: Ask AI Chip */}
-                        <div className="pt-2 border-t border-slate-100 dark:border-[#023e8a]/30 flex items-center justify-between">
+                        {/* Card Footer: Ask AI about this project */}
+                        <div className="pt-2.5 border-t border-[#E8D5C7] dark:border-[#59433A] flex items-center justify-between">
                           <button
                             onClick={() => onAskQuestion(`Tell me about your ${project.title} and technical challenges.`)}
-                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C65D3A] dark:text-[#F0B35A] hover:text-[#A94A2E] dark:hover:text-[#E47B52] transition-colors cursor-pointer"
                           >
-                            <MessageSquare className="w-3 h-3" />
+                            <MessageSquare className="w-3.5 h-3.5" />
                             <span>Ask AI about this project</span>
                             <ArrowUpRight className="w-3 h-3" />
                           </button>
@@ -228,18 +176,18 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
               <section
                 key="architecture"
                 id="portfolio-section-architecture"
-                className="scroll-mt-16 space-y-4"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <Cpu className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                       System Architecture & Technical Pipelines
-                    </h3>
+                    </h2>
                   </div>
-                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
                     Developer Deep-Dive
                   </span>
                 </div>
@@ -248,36 +196,38 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
                   {ARCHITECTURE_HIGHLIGHTS.map((arch, idx) => (
                     <div
                       key={idx}
-                      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#071a2f] border border-emerald-500/30 dark:border-emerald-500/20 shadow-xs"
+                      className="p-5 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs flex flex-col justify-between"
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40">
-                          {arch.type}
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">
-                        {arch.title}
-                      </h4>
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#C65D3A] dark:text-[#F0B35A] px-2 py-0.5 rounded-md bg-[#F7EDE3] dark:bg-[#241A17] border border-[#E8D5C7] dark:border-[#59433A]">
+                            {arch.type}
+                          </span>
+                        </div>
+                        <h3 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA] mb-3">
+                          {arch.title}
+                        </h3>
 
-                      <div className="space-y-2.5">
-                        {arch.steps.map((st, sIdx) => (
-                          <div key={sIdx} className="flex items-start space-x-2 text-xs">
-                            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                              {st.step}:
-                            </span>
-                            <span className="text-slate-600 dark:text-slate-300">
-                              {st.desc}
-                            </span>
-                          </div>
-                        ))}
+                        <div className="space-y-2">
+                          {arch.steps.map((st, sIdx) => (
+                            <div key={sIdx} className="flex items-start space-x-2 text-xs">
+                              <span className="font-mono font-semibold text-[#C65D3A] dark:text-[#F0B35A] flex-shrink-0">
+                                {st.step}:
+                              </span>
+                              <span className="text-[#6F5B52] dark:text-[#D5C0B5] leading-relaxed">
+                                {st.desc}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="mt-4 pt-2.5 border-t border-slate-100 dark:border-[#023e8a]/30">
+                      <div className="mt-4 pt-2.5 border-t border-[#E8D5C7] dark:border-[#59433A]">
                         <button
                           onClick={() => onAskQuestion(`Explain how you designed the ${arch.title}`)}
-                          className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+                          className="text-xs font-semibold text-[#C65D3A] dark:text-[#F0B35A] hover:underline flex items-center gap-1 cursor-pointer"
                         >
-                          <MessageSquare className="w-3 h-3" />
+                          <MessageSquare className="w-3.5 h-3.5" />
                           <span>Ask AI how this was designed</span>
                         </button>
                       </div>
@@ -292,31 +242,31 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
               <section
                 key="skills"
                 id="portfolio-section-skills"
-                className="scroll-mt-16 space-y-4"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-sky-100 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <Code className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                       Technical Skills & Expertise
-                    </h3>
+                    </h2>
                   </div>
-                  <span className="text-xs text-slate-400 font-medium">Core Stack</span>
+                  <span className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] font-medium">Core Stack</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                   {/* Languages Card */}
-                  <div className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 shadow-xs">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-2.5">
-                      Languages
-                    </h4>
-                    <div className="space-y-1.5">
+                  <div className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] mb-3">
+                      Programming Languages
+                    </h3>
+                    <div className="space-y-2">
                       {SKILLS_DATA.languages.map((lang) => (
                         <div key={lang.name} className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-slate-800 dark:text-slate-200">{lang.name}</span>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-100 dark:bg-[#023e8a]/60 text-sky-800 dark:text-sky-300 font-medium">
+                          <span className="font-semibold text-[#2D211D] dark:text-[#FFF4EA]">{lang.name}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A] font-medium">
                             {lang.level}
                           </span>
                         </div>
@@ -325,30 +275,30 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
                   </div>
 
                   {/* Backend & Systems Card */}
-                  <div className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 shadow-xs">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-2.5">
-                      Backend & Systems
-                    </h4>
-                    <div className="space-y-1.5">
+                  <div className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] mb-3">
+                      Backend & Architecture
+                    </h3>
+                    <div className="space-y-2">
                       {SKILLS_DATA.backend.map((item) => (
                         <div key={item.name} className="text-xs">
-                          <span className="font-semibold text-slate-800 dark:text-slate-200 block">{item.name}</span>
-                          <span className="text-[10px] text-slate-500 dark:text-slate-400">{item.description}</span>
+                          <span className="font-semibold text-[#2D211D] dark:text-[#FFF4EA] block">{item.name}</span>
+                          <span className="text-[11px] text-[#6F5B52] dark:text-[#D5C0B5]">{item.description}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Systems & Networking Card */}
-                  <div className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 shadow-xs sm:col-span-2 md:col-span-1">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-2.5">
+                  <div className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs sm:col-span-2 md:col-span-1">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] mb-3">
                       Systems & Networking
-                    </h4>
-                    <div className="space-y-1.5">
+                    </h3>
+                    <div className="space-y-2">
                       {SKILLS_DATA.systems.map((item) => (
                         <div key={item.name} className="text-xs">
-                          <span className="font-semibold text-slate-800 dark:text-slate-200 block">{item.name}</span>
-                          <span className="text-[10px] text-slate-500 dark:text-slate-400">{item.description}</span>
+                          <span className="font-semibold text-[#2D211D] dark:text-[#FFF4EA] block">{item.name}</span>
+                          <span className="text-[11px] text-[#6F5B52] dark:text-[#D5C0B5]">{item.description}</span>
                         </div>
                       ))}
                     </div>
@@ -358,36 +308,35 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
             );
 
           case 'experience':
-          case 'resume':
             return (
               <section
-                key={sectionKey}
-                id={`portfolio-section-${sectionKey}`}
-                className="scroll-mt-16 space-y-4"
+                key="experience"
+                id="portfolio-section-experience"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-sky-100 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <FileText className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                      Resume & Professional Experience
-                    </h3>
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
+                      About & Professional Profile
+                    </h2>
                   </div>
-                  <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold">
-                    Verified Profile
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
+                    Verified Candidate
                   </span>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-gradient-to-r from-sky-50 to-blue-50 dark:from-[#071a2f] dark:to-[#041327] border border-sky-200/80 dark:border-[#023e8a]/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="space-y-1">
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <div className="p-5 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <h3 className="text-base font-bold text-[#2D211D] dark:text-[#FFF4EA] flex items-center gap-2">
                       <span>Tilak Shrivastava</span>
-                      <span className="text-[11px] font-normal px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                        Ready to Hire
+                      <span className="text-[11px] font-normal px-2 py-0.5 rounded-full bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A] border border-[#E8D5C7] dark:border-[#59433A]">
+                        Immediate Availability
                       </span>
-                    </h4>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 max-w-xl">
+                    </h3>
+                    <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] max-w-xl leading-relaxed">
                       Master of Computer Applications graduate with hands-on systems programming in C++, asynchronous Python/FastAPI backend engineering, and modern full-stack application development.
                     </p>
                   </div>
@@ -396,7 +345,7 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
                     <a
                       href="/my_resume.pdf"
                       download="my_resume.pdf"
-                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-[#023e8a] dark:hover:bg-[#0077b6] text-white text-xs font-semibold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer select-none"
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white text-xs font-semibold shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>Download Resume (PDF)</span>
@@ -407,59 +356,58 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
             );
 
           case 'achievements':
-          case 'learning':
             return (
               <section
-                key={sectionKey}
-                id={`portfolio-section-${sectionKey}`}
-                className="scroll-mt-16 space-y-4"
+                key="achievements"
+                id="portfolio-section-achievements"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <Award className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                       LeetCode & Algorithmic Problem Solving
-                    </h3>
+                    </h2>
                   </div>
-                  <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
                     200+ Problems Solved
                   </span>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 space-y-3">
+                <div className="p-5 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs space-y-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <h3 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA] flex items-center gap-2">
                         <span>LeetCode Profile:</span>
-                        <code className="px-2 py-0.5 bg-slate-100 dark:bg-[#020b18] text-sky-600 dark:text-sky-400 font-mono rounded text-xs font-semibold">
+                        <code className="px-2 py-0.5 bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A] font-mono rounded text-xs font-semibold">
                           {LEETCODE_ACHIEVEMENT.username}
                         </code>
-                      </h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                      </h3>
+                      <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] mt-1 leading-relaxed">
                         {LEETCODE_ACHIEVEMENT.summary}
                       </p>
                     </div>
 
                     <button
                       onClick={() => onAskQuestion('What is your problem-solving approach and LeetCode experience?')}
-                      className="px-3 py-1.5 rounded-xl border border-sky-200 dark:border-[#023e8a] text-sky-600 dark:text-sky-400 text-xs font-medium hover:bg-sky-50 dark:hover:bg-[#023e8a]/30 transition-colors flex items-center gap-1.5 cursor-pointer self-start sm:self-center"
+                      className="px-3 py-1.5 rounded-xl border border-[#E8D5C7] dark:border-[#59433A] text-[#C65D3A] dark:text-[#F0B35A] text-xs font-medium hover:bg-[#F7EDE3] dark:hover:bg-[#30221E] transition-colors flex items-center gap-1.5 cursor-pointer self-start sm:self-center"
                     >
-                      <MessageSquare className="w-3 h-3" />
+                      <MessageSquare className="w-3.5 h-3.5" />
                       <span>Ask AI about DSA</span>
                     </button>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-100 dark:border-[#023e8a]/30">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">
-                      Practiced Data Structures & Algorithms Topics:
+                  <div className="pt-2 border-t border-[#E8D5C7] dark:border-[#59433A]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] block mb-1.5">
+                      Practiced Algorithmic Topics:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {LEETCODE_ACHIEVEMENT.topics.map((t) => (
                         <span
                           key={t}
-                          className="text-[11px] px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-[#020b18] text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-[#023e8a]/40"
+                          className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#F7EDE3] dark:bg-[#241A17] text-[#6F5B52] dark:text-[#D5C0B5] border border-[#E8D5C7] dark:border-[#59433A]"
                         >
                           {t}
                         </span>
@@ -475,39 +423,39 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
               <section
                 key="education"
                 id="portfolio-section-education"
-                className="scroll-mt-16 space-y-4"
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-300">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <GraduationCap className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                       Education & Academic Background
-                    </h3>
+                    </h2>
                   </div>
-                  <span className="text-xs text-purple-600 dark:text-purple-400 font-semibold">
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
                     {EDUCATION_DATA.cgpa}
                   </span>
                 </div>
 
-                <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40">
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                <div className="p-5 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] shadow-xs">
+                  <h3 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA]">
                     {EDUCATION_DATA.degree}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
+                  </h3>
+                  <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] mb-2.5">
                     {EDUCATION_DATA.institution}
                   </p>
 
-                  <div className="mt-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] block mb-1.5">
                       Key Coursework:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {EDUCATION_DATA.coursework.map((c) => (
                         <span
                           key={c}
-                          className="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-[#020b18] text-slate-600 dark:text-slate-300"
+                          className="text-[11px] px-2 py-0.5 rounded bg-[#F7EDE3] dark:bg-[#241A17] text-[#6F5B52] dark:text-[#D5C0B5]"
                         >
                           {c}
                         </span>
@@ -523,39 +471,33 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
               <section
                 key="contact"
                 id="portfolio-section-contact"
-                className={`scroll-mt-16 space-y-4 ${
-                  visitorMode === 'collaborator'
-                    ? 'p-5 rounded-3xl bg-amber-500/10 dark:bg-amber-500/5 border-2 border-amber-500/50 shadow-lg'
-                    : ''
-                }`}
+                className="scroll-mt-24 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#023e8a]/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-[#E8D5C7] dark:border-[#59433A] pb-2.5">
                   <div className="flex items-center space-x-2">
-                    <span className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+                    <span className="p-1.5 rounded-lg bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#D96B45]">
                       <Mail className="w-4 h-4" />
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                      Direct Contact & Collaboration
-                    </h3>
+                    <h2 className="text-lg font-bold text-[#2D211D] dark:text-[#FFF4EA]">
+                      Direct Contact Information
+                    </h2>
                   </div>
-                  {visitorMode === 'collaborator' && (
-                    <span className="text-xs font-bold text-amber-600 dark:text-amber-400">
-                      ★ Top Priority for Collaborators
-                    </span>
-                  )}
+                  <span className="text-xs text-[#C65D3A] dark:text-[#F0B35A] font-semibold">
+                    {CONTACT_INFO.availability}
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <a
                     href={`mailto:${CONTACT_INFO.email}`}
-                    className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 hover:border-sky-400 dark:hover:border-[#0077b6] transition-all flex items-center space-x-3 group cursor-pointer"
+                    className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] hover:border-[#C65D3A] dark:hover:border-[#F0B35A] transition-colors flex items-center space-x-3 group cursor-pointer shadow-xs"
                   >
-                    <div className="p-2 rounded-xl bg-sky-50 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                    <div className="p-2 rounded-xl bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A] group-hover:bg-[#C65D3A] group-hover:text-white dark:group-hover:bg-[#D96B45] transition-colors">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block">Email</span>
-                      <span className="text-xs font-semibold text-slate-900 dark:text-white truncate block">
+                      <span className="text-[10px] uppercase font-bold text-[#6F5B52] dark:text-[#D5C0B5] block">Email</span>
+                      <span className="text-xs font-semibold text-[#2D211D] dark:text-[#FFF4EA] truncate block">
                         {CONTACT_INFO.email}
                       </span>
                     </div>
@@ -563,35 +505,35 @@ export const PersonalizedPortfolio = ({ onAskQuestion }) => {
 
                   <a
                     href={`tel:${CONTACT_INFO.phone}`}
-                    className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 hover:border-sky-400 dark:hover:border-[#0077b6] transition-all flex items-center space-x-3 group cursor-pointer"
+                    className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] hover:border-[#C65D3A] dark:hover:border-[#F0B35A] transition-colors flex items-center space-x-3 group cursor-pointer shadow-xs"
                   >
-                    <div className="p-2 rounded-xl bg-sky-50 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                    <div className="p-2 rounded-xl bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A] group-hover:bg-[#C65D3A] group-hover:text-white dark:group-hover:bg-[#D96B45] transition-colors">
                       <Phone className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block">Phone</span>
-                      <span className="text-xs font-semibold text-slate-900 dark:text-white truncate block">
+                      <span className="text-[10px] uppercase font-bold text-[#6F5B52] dark:text-[#D5C0B5] block">Phone</span>
+                      <span className="text-xs font-semibold text-[#2D211D] dark:text-[#FFF4EA] truncate block">
                         {CONTACT_INFO.phone}
                       </span>
                     </div>
                   </a>
 
-                  <div className="p-4 rounded-2xl bg-white dark:bg-[#071a2f] border border-slate-200 dark:border-[#023e8a]/40 flex items-center space-x-3">
-                    <div className="p-2 rounded-xl bg-sky-50 dark:bg-[#023e8a]/40 text-sky-600 dark:text-sky-300">
+                  <div className="p-4 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] flex items-center space-x-3 shadow-xs">
+                    <div className="p-2 rounded-xl bg-[#F7EDE3] dark:bg-[#241A17] text-[#C65D3A] dark:text-[#F0B35A]">
                       <MapPin className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block">Location</span>
-                      <span className="text-xs font-semibold text-slate-900 dark:text-white truncate block">
+                      <span className="text-[10px] uppercase font-bold text-[#6F5B52] dark:text-[#D5C0B5] block">Location</span>
+                      <span className="text-xs font-semibold text-[#2D211D] dark:text-[#FFF4EA] truncate block">
                         {CONTACT_INFO.location}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-100 dark:bg-[#020b18] text-xs text-slate-600 dark:text-slate-300 flex items-center justify-between">
-                  <span>Looking for: <strong>{CONTACT_INFO.openTo}</strong></span>
-                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                <div className="p-3.5 rounded-xl bg-[#F7EDE3] dark:bg-[#30221E] text-xs text-[#6F5B52] dark:text-[#D5C0B5] flex items-center justify-between border border-[#E8D5C7] dark:border-[#59433A]">
+                  <span>Open to: <strong>{CONTACT_INFO.openTo}</strong></span>
+                  <span className="text-[11px] font-semibold text-[#C65D3A] dark:text-[#F0B35A]">
                     {CONTACT_INFO.availability}
                   </span>
                 </div>

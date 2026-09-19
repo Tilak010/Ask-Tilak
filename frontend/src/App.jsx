@@ -5,12 +5,22 @@ import WelcomeScreen from './components/WelcomeScreen';
 import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import FootballLoader from './components/FootballLoader';
-import FootballBackground from './components/FootballBackground';
 import VisitorTypeSelector from './components/VisitorTypeSelector';
 import { VisitorModeProvider, useVisitorMode } from './context/VisitorModeContext';
 import { MODE_CONFIGS } from './data/portfolioData';
 import { sendChatMessage, checkBackendHealth } from './services/api';
-import { AlertCircle, RefreshCw, Sparkles, ChevronRight } from 'lucide-react';
+import { 
+  AlertCircle, 
+  RefreshCw, 
+  Sparkles, 
+  ChevronRight, 
+  ArrowLeft, 
+  X, 
+  Plus, 
+  Bot, 
+  MessageSquare,
+  ChevronDown
+} from 'lucide-react';
 
 const STORAGE_KEY = 'ask_tilak_chatbot_sessions_v1';
 const THEME_KEY = 'ask_tilak_theme_preference';
@@ -45,7 +55,7 @@ function AppContent() {
 
     const timer = setTimeout(() => {
       root.classList.remove('theme-transition');
-    }, 350);
+    }, 280);
 
     return () => clearTimeout(timer);
   }, [theme]);
@@ -85,6 +95,7 @@ function AppContent() {
   });
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [focusTrigger, setFocusTrigger] = useState(0);
@@ -139,8 +150,10 @@ function AppContent() {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    if (isChatOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isLoading, isChatOpen]);
 
   /**
    * Create or navigate to a new empty conversation session immediately
@@ -153,6 +166,7 @@ function AppContent() {
     if (currentSession && currentSession.messages.length === 0) {
       setErrorMessage(null);
       setFocusTrigger((prev) => prev + 1);
+      setIsChatOpen(true);
       return currentSession.id;
     }
 
@@ -165,11 +179,11 @@ function AppContent() {
       messages: [],
     };
 
-    // Prepend newSession to history immediately
     setSessions((prev) => [newSession, ...prev]);
     setActiveSessionId(newSessionId);
     setErrorMessage(null);
     setFocusTrigger((prev) => prev + 1);
+    setIsChatOpen(true);
 
     return newSessionId;
   };
@@ -179,6 +193,7 @@ function AppContent() {
     setActiveSessionId(id);
     setErrorMessage(null);
     setFocusTrigger((prev) => prev + 1);
+    setIsChatOpen(true);
   };
 
   // Delete a specific session
@@ -186,8 +201,6 @@ function AppContent() {
     if (window.confirm('Are you sure you want to delete this conversation?')) {
       setSessions((prev) => {
         const filtered = prev.filter((s) => s.id !== sessionId);
-        
-        // If deleting the active session, switch to next available session or landing page (null)
         if (activeSessionId === sessionId) {
           const nextActive = filtered.length > 0 ? filtered[0].id : null;
           setActiveSessionId(nextActive);
@@ -216,8 +229,8 @@ function AppContent() {
     if (!trimmed || isLoading) return;
 
     setErrorMessage(null);
+    setIsChatOpen(true);
 
-    // Check if we already have an active session
     let currentSession = sessions.find((s) => s.id === activeSessionId);
     let targetSessionId = activeSessionId;
 
@@ -229,7 +242,6 @@ function AppContent() {
     };
 
     if (!targetSessionId || !currentSession) {
-      // Create new session if none is selected
       targetSessionId = 'session_' + Date.now();
       const newSession = {
         id: targetSessionId,
@@ -241,7 +253,6 @@ function AppContent() {
       setSessions((prev) => [newSession, ...prev.filter((s) => s.messages.length > 0)]);
       setActiveSessionId(targetSessionId);
     } else {
-      // Append message to existing active session
       setSessions((prev) =>
         prev.map((session) => {
           if (session.id === targetSessionId) {
@@ -260,7 +271,6 @@ function AppContent() {
     setIsLoading(true);
 
     try {
-      // Call FastAPI endpoint POST /chat -> { answer }
       const data = await sendChatMessage(trimmed);
 
       const aiMessage = {
@@ -292,9 +302,19 @@ function AppContent() {
     }
   };
 
+  const handleNavigate = (sectionId) => {
+    setIsChatOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(`portfolio-section-${sectionId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+  };
+
   return (
-    <div className="flex h-screen w-screen bg-slate-100 dark:bg-[#020b18] text-slate-900 dark:text-slate-100 overflow-hidden font-sans transition-colors duration-300">
-      {/* Sidebar */}
+    <div className="flex h-screen w-screen bg-[#FFF8F0] dark:bg-[#241A17] text-[#2D211D] dark:text-[#FFF4EA] overflow-hidden font-sans transition-colors duration-250">
+      {/* Sidebar Drawer */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -308,98 +328,267 @@ function AppContent() {
         onToggleTheme={handleToggleTheme}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full w-full relative bg-slate-50 dark:bg-[#030d1e] overflow-hidden transition-colors duration-300">
+      {/* Main App Container */}
+      <div className="flex-1 flex flex-col h-full w-full relative bg-[#FFF8F0] dark:bg-[#241A17] overflow-hidden transition-colors duration-250">
         
-        {/* Subtle Pitch Vector Background Overlay */}
-        <FootballBackground />
-
         {/* Top Navbar */}
         <Header
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           onNewChat={handleNewChat}
+          onOpenChat={() => setIsChatOpen(!isChatOpen)}
+          isChatOpen={isChatOpen}
           isBackendConnected={isBackendConnected}
           isCheckingBackend={isCheckingBackend}
           onRecheckBackend={handleCheckBackend}
           theme={theme}
           onToggleTheme={handleToggleTheme}
+          onNavigate={handleNavigate}
         />
-
-        {/* Mode-Aware Context Bar inside Active Conversation */}
-        {currentConfig && messages.length > 0 && (
-          <div className="mx-3 sm:mx-6 mt-2 px-3 py-1.5 rounded-xl bg-sky-50/90 dark:bg-[#071a2f]/90 border border-sky-200/80 dark:border-[#023e8a]/50 text-xs flex items-center justify-between gap-2 z-20 shadow-2xs">
-            <div className="flex items-center space-x-2 overflow-x-auto min-w-0 py-0.5">
-              <span className="font-semibold text-sky-800 dark:text-sky-300 flex items-center gap-1 flex-shrink-0 text-[11px]">
-                <Sparkles className="w-3 h-3 text-sky-500" />
-                {currentConfig.roleLabel} activated:
-              </span>
-              <div className="flex items-center gap-1.5 flex-nowrap">
-                {currentConfig.suggestedQuestions.slice(0, 3).map((q, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => startChatWithMessage(q)}
-                    className="px-2 py-0.5 rounded-lg bg-white dark:bg-[#020b18] border border-sky-200 dark:border-[#023e8a]/60 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 hover:border-sky-400 text-[10px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1"
-                    title={`Ask: "${q}"`}
-                  >
-                    <span>{q}</span>
-                    <ChevronRight className="w-2.5 h-2.5 opacity-50" />
-                  </button>
-                ))}
-              </div>
-            </div>
-            <button
-              onClick={openSelector}
-              className="text-[10px] text-sky-600 dark:text-sky-400 font-semibold hover:underline flex-shrink-0 cursor-pointer"
-            >
-              Change View
-            </button>
-          </div>
-        )}
 
         {/* Connection Warning Toast Banner */}
         {errorMessage && (
-          <div className="mx-4 mt-3 p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl text-rose-800 dark:text-rose-200 text-xs flex items-start justify-between z-30 shadow-xs animate-fade-in">
-            <div className="flex items-start space-x-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <span className="font-semibold block">Backend Connection Error</span>
-                <span>{errorMessage}</span>
-              </div>
+          <div className="mx-4 mt-2 p-2.5 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/60 rounded-xl text-rose-800 dark:text-rose-200 text-xs flex items-center justify-between z-30 shadow-xs animate-fade-in">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0" />
+              <span>{errorMessage}</span>
             </div>
             <button
               onClick={handleCheckBackend}
-              className="px-2 py-1 bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/60 dark:hover:bg-rose-800/80 text-rose-900 dark:text-rose-100 rounded-lg font-medium text-[11px] transition-colors flex items-center gap-1 cursor-pointer flex-shrink-0"
+              className="px-2 py-0.5 bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/70 text-rose-900 dark:text-rose-100 rounded-md font-medium text-[11px] transition-colors flex items-center gap-1 cursor-pointer flex-shrink-0"
             >
               <RefreshCw className="w-3 h-3" /> Retry
             </button>
           </div>
         )}
 
-        {/* Chat Area Scroll Container */}
-        <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 flex flex-col z-10">
-          {!activeSessionId || messages.length === 0 ? (
-            <WelcomeScreen onSelectPrompt={startChatWithMessage} />
-          ) : (
-            <div className="max-w-4xl mx-auto w-full space-y-1">
-              {messages.map((msg) => (
-                <ChatMessage key={msg.id} message={msg} />
-              ))}
-
-              {/* Bouncing Football Thinking Indicator */}
-              {isLoading && <FootballLoader />}
-
-              <div ref={messagesEndRef} />
-            </div>
-          )}
+        {/* Portfolio Scroll Container */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col z-10">
+          <WelcomeScreen 
+            onSelectPrompt={startChatWithMessage} 
+            onOpenChat={() => setIsChatOpen(true)}
+          />
         </div>
 
-        {/* Chat Input Bar */}
-        <ChatInput 
-          onSendMessage={startChatWithMessage} 
-          isLoading={isLoading} 
-          activeSessionId={activeSessionId}
-          focusTrigger={focusTrigger}
-        />
+        {/* Floating Quick Ask AI Trigger (Visible when chat is closed) */}
+        {!isChatOpen && (
+          <div className="fixed bottom-5 right-5 z-20">
+            <button
+              onClick={() => setIsChatOpen(true)}
+              className="px-4 py-2.5 rounded-full bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white text-xs font-semibold shadow-lg shadow-[#C65D3A]/25 flex items-center gap-2 transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+              title="Chat with Tilak's AI Representative"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#F0B35A]" />
+              <span>Ask AI Assistant</span>
+              {messages.length > 0 && (
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* MOBILE CHAT VIEW (Responsive Full-Screen Overlay with Back Button)        */}
+        {/* ========================================================================= */}
+        {isChatOpen && (
+          <div className="md:hidden fixed inset-0 z-50 flex flex-col bg-[#FFF8F0] dark:bg-[#241A17] animate-fade-in">
+            
+            {/* Mobile Chat Header with Back Button */}
+            <div className="h-16 px-3 sm:px-4 border-b border-[#E8D5C7] dark:border-[#59433A] bg-[#FFF8F0] dark:bg-[#30221E] flex items-center justify-between flex-shrink-0 shadow-xs">
+              
+              {/* Back button (Closes mobile chat view, preserves state) */}
+              <button 
+                onClick={() => setIsChatOpen(false)}
+                className="flex items-center gap-1 text-xs font-semibold text-[#C65D3A] dark:text-[#F0B35A] py-2 px-2.5 -ml-1 rounded-xl hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] active:scale-95 transition-all cursor-pointer"
+                aria-label="Back to Portfolio"
+                title="Return to portfolio view"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back</span>
+              </button>
+              
+              {/* Chat Title & Status */}
+              <div className="text-center">
+                <h2 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA] flex items-center justify-center gap-1.5">
+                  <Bot className="w-4 h-4 text-[#C65D3A] dark:text-[#D96B45]" />
+                  <span>Tilak AI Assistant</span>
+                </h2>
+                <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#6F5B52] dark:text-[#D5C0B5]">
+                  <span className={`w-1.5 h-1.5 rounded-full ${isBackendConnected ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
+                  <span>{isBackendConnected ? 'FastAPI Online' : 'Offline'}</span>
+                </div>
+              </div>
+
+              {/* Top Right Controls: New Chat + Close */}
+              <div className="flex items-center space-x-1">
+                <button
+                  onClick={handleNewChat}
+                  className="p-2 rounded-xl text-[#6F5B52] dark:text-[#D5C0B5] hover:text-[#C65D3A] dark:hover:text-[#F0B35A] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] transition-colors cursor-pointer"
+                  title="New conversation"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setIsChatOpen(false)}
+                  className="p-2 rounded-xl text-[#6F5B52] dark:text-[#D5C0B5] hover:text-[#2D211D] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] transition-colors cursor-pointer"
+                  title="Close chat"
+                  aria-label="Close chat"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+            </div>
+
+            {/* Mobile Messages Area */}
+            <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-2">
+              {messages.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center p-6 text-[#6F5B52] dark:text-[#D5C0B5]">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] flex items-center justify-center mb-3">
+                    <Sparkles className="w-6 h-6 text-[#C65D3A] dark:text-[#F0B35A]" />
+                  </div>
+                  <h3 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA] mb-1">
+                    Ask Tilak's AI Representative
+                  </h3>
+                  <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] max-w-xs mb-4">
+                    Inquire about Tilak's systems programming in C++, FastAPI backends, LeetCode problem solving, or availability.
+                  </p>
+
+                  <div className="w-full max-w-xs space-y-1.5 text-left">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#6F5B52]/80 dark:text-[#D5C0B5]/80 block px-1">
+                      Quick Prompts:
+                    </span>
+                    {(currentConfig?.suggestedQuestions || [
+                      'Tell me about your strongest project.',
+                      'What are your strongest technical skills?',
+                      'Why hire Tilak?'
+                    ]).slice(0, 3).map((q, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => startChatWithMessage(q)}
+                        className="w-full p-2 rounded-xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] text-xs text-[#2D211D] dark:text-[#FFF4EA] hover:border-[#C65D3A] dark:hover:border-[#F0B35A] text-left line-clamp-1 transition-colors"
+                      >
+                        "{q}"
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full space-y-1">
+                  {messages.map((msg) => (
+                    <ChatMessage key={msg.id} message={msg} />
+                  ))}
+                  {isLoading && <FootballLoader />}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Chat Input Bar */}
+            <div className="border-t border-[#E8D5C7] dark:border-[#59433A] bg-[#FFF8F0]/95 dark:bg-[#30221E]/95 backdrop-blur-md pt-2">
+              <ChatInput 
+                onSendMessage={startChatWithMessage} 
+                isLoading={isLoading} 
+                activeSessionId={activeSessionId}
+                focusTrigger={focusTrigger}
+                placeholder="Ask Tilak's AI anything..."
+              />
+            </div>
+
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* DESKTOP CHAT DRAWER / PANEL (Focused Side Assistant)                       */}
+        {/* ========================================================================= */}
+        {isChatOpen && (
+          <aside className="hidden md:flex fixed right-0 top-16 bottom-0 w-[420px] lg:w-[460px] z-40 flex-col bg-[#FFF8F0] dark:bg-[#30221E] border-l border-[#E8D5C7] dark:border-[#59433A] shadow-2xl animate-fade-in">
+            
+            {/* Desktop Panel Header */}
+            <div className="h-14 px-4 border-b border-[#E8D5C7] dark:border-[#59433A] flex items-center justify-between flex-shrink-0 bg-[#F7EDE3]/80 dark:bg-[#241A17]/80">
+              <div className="flex items-center space-x-2">
+                <Bot className="w-4 h-4 text-[#C65D3A] dark:text-[#D96B45]" />
+                <h2 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA]">
+                  Tilak AI Assistant
+                </h2>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              </div>
+
+              <div className="flex items-center space-x-1">
+                <button
+                  onClick={handleNewChat}
+                  className="p-1.5 rounded-lg text-[#6F5B52] hover:text-[#C65D3A] dark:text-[#D5C0B5] dark:hover:text-[#F0B35A] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] transition-colors cursor-pointer"
+                  title="New Conversation"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setIsChatOpen(false)}
+                  className="p-1.5 rounded-lg text-[#6F5B52] hover:text-[#2D211D] dark:text-[#D5C0B5] dark:hover:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] transition-colors cursor-pointer"
+                  title="Close Assistant"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Desktop Messages Area */}
+            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-[#FFF8F0]/50 dark:bg-[#241A17]/40">
+              {messages.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center p-6 text-[#6F5B52] dark:text-[#D5C0B5]">
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] flex items-center justify-center mb-2.5">
+                    <Sparkles className="w-5 h-5 text-[#C65D3A] dark:text-[#F0B35A]" />
+                  </div>
+                  <h3 className="text-sm font-bold text-[#2D211D] dark:text-[#FFF4EA] mb-1">
+                    Ask Tilak's AI Representative
+                  </h3>
+                  <p className="text-xs text-[#6F5B52] dark:text-[#D5C0B5] max-w-xs mb-4">
+                    Inquire about Tilak's systems programming in C++, FastAPI backends, LeetCode problem solving, or availability.
+                  </p>
+
+                  <div className="w-full max-w-xs space-y-1.5 text-left">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#6F5B52]/80 dark:text-[#D5C0B5]/80 block px-1">
+                      Quick Prompts:
+                    </span>
+                    {(currentConfig?.suggestedQuestions || [
+                      'Tell me about your strongest project.',
+                      'What are your strongest technical skills?',
+                      'Why hire Tilak?'
+                    ]).slice(0, 3).map((q, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => startChatWithMessage(q)}
+                        className="w-full p-2 rounded-xl bg-[#FFF1E6] dark:bg-[#3A2924] border border-[#E8D5C7] dark:border-[#59433A] text-xs text-[#2D211D] dark:text-[#FFF4EA] hover:border-[#C65D3A] dark:hover:border-[#F0B35A] text-left line-clamp-1 transition-colors cursor-pointer"
+                      >
+                        "{q}"
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full space-y-1">
+                  {messages.map((msg) => (
+                    <ChatMessage key={msg.id} message={msg} />
+                  ))}
+                  {isLoading && <FootballLoader />}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </div>
+
+            {/* Desktop Input Area */}
+            <div className="border-t border-[#E8D5C7] dark:border-[#59433A] bg-[#FFF8F0] dark:bg-[#30221E] pt-2">
+              <ChatInput 
+                onSendMessage={startChatWithMessage} 
+                isLoading={isLoading} 
+                activeSessionId={activeSessionId}
+                focusTrigger={focusTrigger}
+                placeholder="Ask Tilak's AI anything..."
+              />
+            </div>
+
+          </aside>
+        )}
+
       </div>
 
       {/* Global Role Switcher Modal */}
