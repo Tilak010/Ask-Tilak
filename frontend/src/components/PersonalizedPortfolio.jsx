@@ -3,7 +3,6 @@ import {
   Briefcase, 
   Code, 
   GraduationCap, 
-  Users, 
   Cpu, 
   Award, 
   MessageSquare, 
@@ -12,9 +11,7 @@ import {
   Download, 
   Mail, 
   Phone, 
-  MapPin, 
-  Sparkles,
-  ExternalLink
+  MapPin
 } from 'lucide-react';
 import { 
   PROJECTS_DATA, 

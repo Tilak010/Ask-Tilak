@@ -1,4 +1,4 @@
-import { Briefcase, Code, GraduationCap, Users, Sparkles, Server, Terminal, Shield, FolderGit2, Mail, ExternalLink, Cpu, Database, Award, BookOpen } from 'lucide-react';
+import { Briefcase, Code, GraduationCap, Users, Sparkles } from 'lucide-react';
 
 export const VISITOR_MODES = {
   RECRUITER: 'recruiter',
