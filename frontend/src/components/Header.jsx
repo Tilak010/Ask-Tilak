@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import ThemeToggle from './ThemeToggle';
 import ViewSwitcher from './ViewSwitcher';
 import { Menu, X, Sparkles, FileText, Download, MessageSquare, Bot } from 'lucide-react';
-import { useVisitorMode } from '../context/VisitorModeContext';
 
 export const Header = ({ 
-  onToggleSidebar, 
-  onNewChat,
+  onToggleSidebar,
+  isSidebarOpen, 
   onOpenChat,
-  isChatOpen,
-  isBackendConnected, 
-  isCheckingBackend,
-  onRecheckBackend,
+  isChatOpen, 
   theme,
   onToggleTheme,
   onNavigate
 }) => {
-  const { visitorMode } = useVisitorMode();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (sectionId) => {
@@ -92,11 +87,26 @@ export const Header = ({
         </button>
       </nav>
 
-      {/* Right Controls: View Switcher, AI Chatbot button, Resume, Theme Toggle, Mobile Menu */}
+      {/* Right Controls: View Switcher, History button, AI Chatbot button, Resume, Theme Toggle, Mobile Menu */}
       <div className="flex items-center space-x-2 sm:space-x-2.5">
         
         {/* Compact View Switcher */}
         <ViewSwitcher compact={true} />
+
+        {/* Chat History Button (Desktop & Tablet) */}
+        <button
+          onClick={onToggleSidebar}
+          className={`hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#C65D3A]/30 select-none ${
+            isSidebarOpen
+              ? 'bg-[#F7EDE3] dark:bg-[#3A2924] border-[#C65D3A] dark:border-[#D96B45] text-[#C65D3A] dark:text-[#F0B35A]'
+              : 'border-[#E8D5C7] dark:border-[#59433A] bg-[#FFF1E6] dark:bg-[#30221E] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] text-[#2D211D] dark:text-[#FFF4EA]'
+          }`}
+          title="Chat History"
+          aria-label="Toggle chat history"
+        >
+          <MessageSquare className="w-3.5 h-3.5 text-[#C65D3A] dark:text-[#D96B45]" />
+          <span>History</span>
+        </button>
 
         {/* AI Chatbot Launcher Button */}
         <button

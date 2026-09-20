@@ -13,13 +13,10 @@ import {
   AlertCircle, 
   RefreshCw, 
   Sparkles, 
-  ChevronRight, 
   ArrowLeft, 
   X, 
   Plus, 
-  Bot, 
-  MessageSquare,
-  ChevronDown
+  Bot 
 } from 'lucide-react';
 
 const STORAGE_KEY = 'ask_tilak_chatbot_sessions_v1';
@@ -324,8 +321,6 @@ function AppContent() {
         onDeleteSession={handleDeleteSession}
         onNewChat={handleNewChat}
         onClearHistory={handleClearHistory}
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
       />
 
       {/* Main App Container */}
@@ -334,12 +329,9 @@ function AppContent() {
         {/* Top Navbar */}
         <Header
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-          onNewChat={handleNewChat}
+          isSidebarOpen={sidebarOpen}
           onOpenChat={() => setIsChatOpen(!isChatOpen)}
           isChatOpen={isChatOpen}
-          isBackendConnected={isBackendConnected}
-          isCheckingBackend={isCheckingBackend}
-          onRecheckBackend={handleCheckBackend}
           theme={theme}
           onToggleTheme={handleToggleTheme}
           onNavigate={handleNavigate}

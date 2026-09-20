@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { MODE_CONFIGS } from '../data/portfolioData';
 
 const VISITOR_TYPE_STORAGE_KEY = 'portfolioVisitorType';

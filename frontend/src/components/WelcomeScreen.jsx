@@ -7,10 +7,7 @@ import {
   Download, 
   MessageSquare, 
   ChevronDown,
-  Code,
-  Briefcase,
-  MapPin,
-  CheckCircle2
+  Briefcase
 } from 'lucide-react';
 import { MODE_CONFIGS, DEFAULT_SUGGESTIONS } from '../data/portfolioData';
 import { useVisitorMode } from '../context/VisitorModeContext';

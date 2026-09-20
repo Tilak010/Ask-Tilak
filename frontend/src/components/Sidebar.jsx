@@ -1,7 +1,5 @@
 import React from 'react';
 import { Plus, MessageSquare, Trash2, X, ChevronRight, Bot } from 'lucide-react';
-import { useVisitorMode } from '../context/VisitorModeContext';
-import { MODE_CONFIGS } from '../data/portfolioData';
 
 export const Sidebar = ({ 
   isOpen, 
@@ -11,13 +9,8 @@ export const Sidebar = ({
   onSelectSession, 
   onDeleteSession,
   onNewChat, 
-  onClearHistory,
-  theme,
-  onToggleTheme
+  onClearHistory
 }) => {
-  const { visitorMode } = useVisitorMode();
-  const currentConfig = visitorMode && MODE_CONFIGS[visitorMode];
-
   return (
     <>
       {/* Mobile Backdrop */}
@@ -31,7 +24,7 @@ export const Sidebar = ({
       {/* Sidebar Panel */}
       <aside className={`
         fixed md:static inset-y-0 left-0 z-40
-        w-72 bg-[#241A17] text-[#FFF4EA]
+        w-72 h-full flex-shrink-0 bg-[#241A17] text-[#FFF4EA]
         border-r border-[#59433A] shadow-xl
         flex flex-col justify-between
         transform transition-all duration-300 ease-in-out

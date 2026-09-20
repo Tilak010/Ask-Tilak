@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Briefcase, Code, GraduationCap, Users, Sparkles, ArrowRight, X, Compass, CheckCircle2 } from 'lucide-react';
-import { MODE_CONFIGS } from '../data/portfolioData';
 import { useVisitorMode } from '../context/VisitorModeContext';
 
 export const VisitorTypeSelector = ({ isModal = false, onClose }) => {
