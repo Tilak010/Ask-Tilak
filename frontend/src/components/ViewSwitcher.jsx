@@ -71,10 +71,10 @@ export const ViewSwitcher = ({ compact = false, showLabel = true }) => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border transition-all duration-200 cursor-pointer active:scale-95 focus:outline-hidden focus:ring-2 focus:ring-[#C65D3A]/30 ${
+        className={`inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border transition-all duration-200 cursor-pointer active:scale-95 focus:outline-hidden focus:ring-2 focus:ring-[#B4532A]/30 ${
           activeOption
-            ? 'bg-[#F7EDE3] dark:bg-[#3A2924] border-[#C65D3A]/40 dark:border-[#D96B45]/50 text-[#C65D3A] dark:text-[#F0B35A] shadow-2xs font-semibold'
-            : 'bg-[#FFF8F0] dark:bg-[#30221E]/90 border-[#E8D5C7] dark:border-[#59433A] text-[#2D211D] dark:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]'
+            ? 'bg-[#F5EBDD] dark:bg-[#382A21] border-[#B4532A]/40 dark:border-[#D97745]/50 text-[#B4532A] dark:text-[#E9AD55] shadow-2xs font-semibold'
+            : 'bg-[#FFF8ED] dark:bg-[#2D231D]/90 border-[#E7D5BE] dark:border-[#574234] text-[#35251C] dark:text-[#FFF5E8] hover:bg-[#F5EBDD] dark:hover:bg-[#382A21]'
         }`}
         title="Change portfolio view mode"
         aria-expanded={isOpen}
@@ -88,18 +88,18 @@ export const ViewSwitcher = ({ compact = false, showLabel = true }) => {
             {activeOption ? (compact ? activeOption.shortTitle : activeOption.title) : 'Change View'}
           </span>
         )}
-        <ChevronDown className={`w-3.5 h-3.5 text-[#6F5B52] dark:text-[#D5C0B5] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3.5 h-3.5 text-[#796557] dark:text-[#D3BEAA] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Floating Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 sm:w-72 origin-top-right rounded-2xl bg-[#FFF8F0] dark:bg-[#30221E] border border-[#E8D5C7] dark:border-[#59433A] shadow-xl shadow-black/10 dark:shadow-black/60 z-50 p-1.5 focus:outline-hidden animate-fade-in divide-y divide-[#E8D5C7] dark:divide-[#59433A]">
+        <div className="absolute right-0 mt-2 w-64 sm:w-72 origin-top-right rounded-2xl bg-[#FFF8ED] dark:bg-[#2D231D] border border-[#E7D5BE] dark:border-[#574234] shadow-xl shadow-black/10 dark:shadow-black/60 z-50 p-1.5 focus:outline-hidden animate-fade-in divide-y divide-[#E7D5BE] dark:divide-[#574234]">
           {/* Header Title inside Dropdown */}
           <div className="px-3 py-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#6F5B52] dark:text-[#D5C0B5] block">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#796557] dark:text-[#D3BEAA] block">
               Personalized View
             </span>
-            <span className="text-xs text-[#2D211D] dark:text-[#FFF4EA]">
+            <span className="text-xs text-[#35251C] dark:text-[#FFF5E8]">
               Viewing portfolio tailored for:
             </span>
           </div>
@@ -117,19 +117,19 @@ export const ViewSwitcher = ({ compact = false, showLabel = true }) => {
                   }}
                   className={`w-full flex items-start space-x-2.5 px-3 py-2 rounded-xl text-left text-xs transition-colors cursor-pointer group ${
                     isSelected
-                      ? 'bg-[#FFF1E6] dark:bg-[#3A2924] text-[#C65D3A] dark:text-[#F0B35A] font-semibold'
-                      : 'text-[#2D211D] dark:text-[#FFF4EA] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924]'
+                      ? 'bg-[#FFFCF5] dark:bg-[#382A21] text-[#B4532A] dark:text-[#E9AD55] font-semibold'
+                      : 'text-[#35251C] dark:text-[#FFF5E8] hover:bg-[#F5EBDD] dark:hover:bg-[#382A21]'
                   }`}
                 >
                   <span className="text-base flex-shrink-0 mt-0.5">{option.emoji}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold group-hover:text-[#C65D3A] dark:group-hover:text-[#F0B35A]">
+                      <span className="font-semibold group-hover:text-[#B4532A] dark:group-hover:text-[#E9AD55]">
                         {option.title}
                       </span>
-                      {isSelected && <Check className="w-3.5 h-3.5 text-[#C65D3A] dark:text-[#F0B35A] flex-shrink-0" />}
+                      {isSelected && <Check className="w-3.5 h-3.5 text-[#B4532A] dark:text-[#E9AD55] flex-shrink-0" />}
                     </div>
-                    <p className="text-[11px] text-[#6F5B52] dark:text-[#D5C0B5] truncate mt-0.5">
+                    <p className="text-[11px] text-[#796557] dark:text-[#D3BEAA] truncate mt-0.5">
                       {option.desc}
                     </p>
                   </div>
@@ -147,8 +147,8 @@ export const ViewSwitcher = ({ compact = false, showLabel = true }) => {
               }}
               className={`w-full flex items-center space-x-2 px-3 py-1.5 rounded-xl text-left text-xs transition-colors cursor-pointer ${
                 visitorMode === 'default' || visitorMode === null
-                  ? 'bg-[#F7EDE3] dark:bg-[#241A17] text-[#2D211D] dark:text-[#FFF4EA] font-semibold'
-                  : 'text-[#6F5B52] dark:text-[#D5C0B5] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] hover:text-[#2D211D] dark:hover:text-white'
+                  ? 'bg-[#F5EBDD] dark:bg-[#211A16] text-[#35251C] dark:text-[#FFF5E8] font-semibold'
+                  : 'text-[#796557] dark:text-[#D3BEAA] hover:bg-[#F5EBDD] dark:hover:bg-[#382A21] hover:text-[#35251C] dark:hover:text-white'
               }`}
             >
               <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" />
@@ -160,7 +160,7 @@ export const ViewSwitcher = ({ compact = false, showLabel = true }) => {
                 setIsOpen(false);
                 openSelector();
               }}
-              className="w-full flex items-center space-x-2 px-3 py-1.5 rounded-xl text-left text-xs text-[#C65D3A] dark:text-[#F0B35A] hover:bg-[#F7EDE3] dark:hover:bg-[#3A2924] transition-colors cursor-pointer font-medium"
+              className="w-full flex items-center space-x-2 px-3 py-1.5 rounded-xl text-left text-xs text-[#B4532A] dark:text-[#E9AD55] hover:bg-[#F5EBDD] dark:hover:bg-[#382A21] transition-colors cursor-pointer font-medium"
             >
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Open Role Selection Screen</span>

@@ -40,7 +40,7 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
   return (
     <div className="w-full max-w-3xl mx-auto px-3 pb-3 sm:pb-4 pt-1 z-20">
       <form onSubmit={handleSubmit} className="relative">
-        <div className="relative flex items-center bg-white dark:bg-[#3A2924] rounded-2xl border border-[#E8D5C7] dark:border-[#59433A] shadow-md shadow-[#C65D3A]/5 dark:shadow-black/40 focus-within:border-[#C65D3A] dark:focus-within:border-[#D96B45] focus-within:ring-2 focus-within:ring-[#C65D3A]/20 transition-all">
+        <div className="relative flex items-center bg-white dark:bg-[#382A21] rounded-2xl border border-[#E7D5BE] dark:border-[#574234] shadow-md shadow-[#B4532A]/5 dark:shadow-black/40 focus-within:border-[#B4532A] dark:focus-within:border-[#D97745] focus-within:ring-2 focus-within:ring-[#B4532A]/20 transition-all">
           
           {/* Textarea (16px text-base on mobile avoids iOS zoom) */}
           <textarea
@@ -51,7 +51,7 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
             placeholder={placeholder || "Ask Tilak's AI anything about his skills, projects, or background..."}
             rows={1}
             disabled={isLoading}
-            className="w-full py-3 px-3.5 sm:px-4 text-base sm:text-sm text-[#2D211D] dark:text-[#FFF4EA] placeholder-[#6F5B52]/60 dark:placeholder-[#D5C0B5]/60 bg-transparent resize-none focus:outline-hidden disabled:opacity-50 max-h-32 overflow-y-auto font-sans leading-relaxed"
+            className="w-full py-3 px-3.5 sm:px-4 text-base sm:text-sm text-[#35251C] dark:text-[#FFF5E8] placeholder-[#796557]/60 dark:placeholder-[#D3BEAA]/60 bg-transparent resize-none focus:outline-hidden disabled:opacity-50 max-h-32 overflow-y-auto font-sans leading-relaxed"
           />
 
           {/* Send Button */}
@@ -61,8 +61,8 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
               disabled={!input.trim() || isLoading}
               className={`p-2.5 rounded-xl flex items-center justify-center transition-all duration-200 w-10 h-10 ${
                 input.trim() && !isLoading
-                  ? 'bg-[#C65D3A] hover:bg-[#A94A2E] dark:bg-[#D96B45] dark:hover:bg-[#E47B52] text-white shadow-sm hover:scale-105 active:scale-95 cursor-pointer'
-                  : 'bg-[#F7EDE3] dark:bg-[#30221E] text-[#6F5B52]/50 dark:text-[#D5C0B5]/40 cursor-not-allowed'
+                  ? 'bg-[#B4532A] hover:bg-[#963F1E] dark:bg-[#D97745] dark:hover:bg-[#E48858] text-white shadow-sm hover:scale-105 active:scale-95 cursor-pointer'
+                  : 'bg-[#F5EBDD] dark:bg-[#2D231D] text-[#796557]/50 dark:text-[#D3BEAA]/40 cursor-not-allowed'
               }`}
               title="Send message"
               aria-label="Send message"
@@ -73,9 +73,9 @@ export const ChatInput = ({ onSendMessage, isLoading, activeSessionId, focusTrig
         </div>
 
         {/* Keyboard shortcut hint */}
-        <div className="flex items-center justify-between px-2 mt-1 text-[11px] text-[#6F5B52] dark:text-[#D5C0B5]">
+        <div className="flex items-center justify-between px-2 mt-1 text-[11px] text-[#796557] dark:text-[#D3BEAA]">
           <span className="flex items-center gap-1">
-            Press <kbd className="px-1 py-0.2 bg-[#F7EDE3] dark:bg-[#241A17] border border-[#E8D5C7] dark:border-[#59433A] rounded text-[10px] font-mono text-[#6F5B52] dark:text-[#D5C0B5]">Enter ↵</kbd> to send
+            Press <kbd className="px-1 py-0.2 bg-[#F5EBDD] dark:bg-[#211A16] border border-[#E7D5BE] dark:border-[#574234] rounded text-[10px] font-mono text-[#796557] dark:text-[#D3BEAA]">Enter ↵</kbd> to send
           </span>
           <span className="hidden sm:inline">Grounded on Resume & Projects</span>
         </div>
