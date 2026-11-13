@@ -3,27 +3,29 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --color-primary: #C65D3A;
-  --color-primary-hover: #A94A2E;
+  --color-primary: #B4532A;
+  --color-primary-hover: #963F1E;
+  --color-secondary: #C66B35;
   --color-accent: #E9A23B;
-  --color-bg: #FFF8F0;
-  --color-bg-secondary: #F7EDE3;
-  --color-card: #FFF1E6;
-  --color-text: #2D211D;
-  --color-text-muted: #6F5B52;
-  --color-border: #E8D5C7;
+  --color-bg: #FFF8ED;
+  --color-bg-secondary: #F5EBDD;
+  --color-card: #FFFCF5;
+  --color-text: #35251C;
+  --color-text-muted: #796557;
+  --color-border: #E7D5BE;
 }
 
 .dark {
-  --color-primary: #D96B45;
-  --color-primary-hover: #E47B52;
-  --color-accent: #F0B35A;
-  --color-bg: #241A17;
-  --color-bg-secondary: #30221E;
-  --color-card: #3A2924;
-  --color-text: #FFF4EA;
-  --color-text-muted: #D5C0B5;
-  --color-border: #59433A;
+  --color-primary: #D97745;
+  --color-primary-hover: #E48858;
+  --color-secondary: #C66B35;
+  --color-accent: #E9AD55;
+  --color-bg: #211A16;
+  --color-bg-secondary: #2D231D;
+  --color-card: #382A21;
+  --color-text: #FFF5E8;
+  --color-text-muted: #D3BEAA;
+  --color-border: #574234;
 }
 
 @layer base {
@@ -44,37 +46,37 @@ html.theme-transition *:after {
   transition-delay: 0s !important;
 }
 
-/* Custom Scrollbar - Light (Warm palette) */
+/* Custom Scrollbar - Light (Warm autumn palette) */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F7EDE3;
+  background: #F5EBDD;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E8D5C7;
+  background: #E7D5BE;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C65D3A;
+  background: #B4532A;
 }
 
-/* Custom Scrollbar - Dark (Warm palette) */
+/* Custom Scrollbar - Dark (Warm autumn palette) */
 .dark ::-webkit-scrollbar-track {
-  background: #241A17;
+  background: #211A16;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #59433A;
+  background: #574234;
   border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #D96B45;
+  background: #D97745;
 }
 
 /* Subtle, restrained animations */
@@ -93,15 +95,15 @@ html.theme-transition *:after {
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Clean glass cards with warm tones */
+/* Clean glass cards with warm autumn tones */
 .glass-panel {
-  background: rgba(255, 241, 230, 0.92);
+  background: rgba(255, 252, 245, 0.92);
   backdrop-filter: blur(12px);
-  border: 1px solid #E8D5C7;
+  border: 1px solid #E7D5BE;
 }
 
 .dark .glass-panel {
-  background: rgba(58, 41, 36, 0.92);
+  background: rgba(56, 42, 33, 0.92);
   backdrop-filter: blur(16px);
-  border: 1px solid #59433A;
+  border: 1px solid #574234;
 }
